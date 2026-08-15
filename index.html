@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Souza Workspace | Plataforma Corporativa Souza Engenharia</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#070b14; --navy-900:#0b1120; --navy-850:#0f1626; --navy-800:#131c2e;
+  --panel:#0f1626; --soft:#131c2e; --border:#22304a; --border-lt:#2c3d5c;
+  --accent:#3b6fd6; --accent-light:#6b9dff; --accent-dk:#2a55ab;
+  --text:#e6ecf7; --muted:#8296b5; --dim:#5b6d8a;
+  --ok:#2f9e6b; --warn:#c98a12; --err:#d1495b; --danger:#d1495b;
+  --fsans:'Inter',system-ui,sans-serif; --fmono:'JetBrains Mono',monospace;
+  --radius:12px; --sh:0 18px 48px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--fsans);background:var(--navy-950);color:var(--text);
+  -webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(59,111,214,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,111,214,.045) 1px,transparent 1px);
+  background-size:52px 52px}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--navy-950)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-lt)}
+svg{width:100%;height:100%;stroke:currentColor;fill:none}
+a{color:var(--accent-light);text-decoration:none}
+
+/* ================= LOGIN ================= */
+.loginWrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(380px,460px) 1fr;min-height:100vh}
+.loginLeft{display:flex;flex-direction:column;justify-content:center;padding:48px 46px;
+  background:var(--navy-900);border-right:1px solid var(--border)}
+.logoRow{display:flex;align-items:center;gap:13px;margin-bottom:38px}
+.logoMark{width:44px;height:44px;flex:none;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--accent),var(--accent-dk));
+  box-shadow:0 6px 20px rgba(59,111,214,.35)}
+.logoMark svg{width:24px;height:24px;stroke:#fff;stroke-width:1.9}
+.logoTxt h1{font-size:17px;font-weight:800;letter-spacing:-.3px;line-height:1.15}
+.logoTxt span{font-family:var(--fmono);font-size:9.5px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase}
+#loginBox h2{font-size:25px;font-weight:700;letter-spacing:-.7px;margin-bottom:9px}
+.leadText{font-size:13px;color:var(--muted);margin-bottom:30px;line-height:1.7}
+.fLabel{display:block;font-family:var(--fmono);font-size:9.5px;letter-spacing:1.3px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:14px}
+.fInput{width:100%;background:var(--navy-850);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-family:var(--fsans);font-size:13.5px;padding:11px 13px;margin-bottom:6px;
+  outline:none;transition:.18s}
+.fInput:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,111,214,.14)}
+.fInput:disabled{opacity:.55;cursor:not-allowed}
+select.fInput{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238296b5' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 11px center;background-size:16px;padding-right:36px}
+textarea.fInput{resize:vertical;line-height:1.6}
+#btnLogin{width:100%;padding:12.5px;border:none;border-radius:8px;cursor:pointer;margin-top:14px;
+  background:linear-gradient(120deg,var(--accent),var(--accent-dk));color:#fff;
+  font-family:var(--fsans);font-size:14px;font-weight:700;letter-spacing:.2px;
+  transition:.18s;box-shadow:0 8px 22px rgba(59,111,214,.3)}
+#btnLogin:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.loginErr{display:none;font-family:var(--fmono);font-size:11px;color:#ff8f9c;
+  background:rgba(209,73,91,.11);border:1px solid rgba(209,73,91,.38);border-radius:7px;
+  padding:9px 11px;margin-bottom:15px}
+.loginErr.show{display:block}
+.fwdLink{display:block;text-align:center;margin-top:16px;font-family:var(--fmono);font-size:10.5px;
+  letter-spacing:.6px;color:var(--dim);cursor:pointer;text-transform:uppercase}
+.fwdLink:hover{color:var(--accent-light)}
+.loginRight{position:relative;display:flex;align-items:center;padding:60px;overflow:hidden;
+  background:radial-gradient(900px 620px at 78% 18%,rgba(59,111,214,.2),transparent 62%),var(--navy-950)}
+.loginRight::after{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(59,111,214,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,111,214,.06) 1px,transparent 1px);background-size:64px 64px}
+.loginRightContent{position:relative;z-index:2;max-width:530px}
+.loginRightContent h2{font-size:34px;font-weight:800;letter-spacing:-1.1px;line-height:1.2;margin-bottom:20px}
+.loginRightContent p{font-size:14.5px;color:var(--muted);line-height:1.85}
+.lrTags{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.lrTag{font-family:var(--fmono);font-size:10px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--accent-light);background:rgba(59,111,214,.1);border:1px solid rgba(59,111,214,.32);
+  padding:6px 12px;border-radius:20px}
+
+/* ================= SHELL / TOPBAR ================= */
+#appShell{position:relative;z-index:2;display:none;min-height:100vh;flex-direction:column}
+.topBar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  gap:20px;padding:11px 22px;background:rgba(11,17,32,.94);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border)}
+.tbLeft{display:flex;align-items:center;gap:14px}
+.burger{width:38px;height:38px;flex:none;background:var(--soft);border:1px solid var(--border);
+  border-radius:9px;cursor:pointer;display:grid;place-items:center;gap:4px;padding:10px 9px;transition:.18s}
+.burger span{display:block;width:100%;height:1.8px;border-radius:2px;background:var(--muted);transition:.22s}
+.burger:hover{border-color:var(--accent);background:rgba(59,111,214,.1)}
+.burger:hover span{background:var(--accent-light)}
+.tbBrand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.tbBrand .logoMark{width:38px;height:38px;border-radius:9px}
+.tbBrand .logoMark svg{width:20px;height:20px}
+.tbBrand h1{font-size:15px;font-weight:800;letter-spacing:-.3px}
+.subtitle{font-family:var(--fmono);font-size:9px;letter-spacing:1.4px;color:var(--muted);text-transform:uppercase}
+.tbRight{display:flex;align-items:center;gap:11px}
+
+/* ---- CHIP + MENU ---- */
+.userWrap{position:relative}
+.userChip{display:flex;align-items:center;gap:12px;background:var(--soft);
+  border:1px solid var(--border);border-radius:34px;padding:6px 16px 6px 7px;cursor:pointer;
+  transition:.18s;user-select:none}
+.userChip:hover{border-color:var(--accent);background:rgba(59,111,214,.1)}
+.userChip.open{border-color:var(--accent);background:rgba(59,111,214,.14)}
+.uAvatar{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--accent),var(--accent-dk));color:#fff;
+  font-size:12.5px;font-weight:800;letter-spacing:.4px;box-shadow:0 4px 14px rgba(59,111,214,.35)}
+.uMeta{text-align:left;line-height:1.2}
+.uMeta strong{display:block;font-size:13.5px;font-weight:700;letter-spacing:-.2px}
+.uMeta span{font-family:var(--fmono);font-size:8.5px;letter-spacing:1.9px;color:var(--muted);text-transform:uppercase}
+.uCaret{width:15px;height:15px;flex:none;color:var(--muted);transition:.22s}
+.userChip.open .uCaret{transform:rotate(180deg);color:var(--accent-light)}
+.userMenu{position:absolute;right:0;top:calc(100% + 10px);width:264px;z-index:60;
+  background:var(--navy-850);border:1px solid var(--border-lt);border-radius:12px;
+  box-shadow:var(--sh);padding:8px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:.2s}
+.userMenu.show{opacity:1;visibility:visible;transform:none}
+.umCap{font-family:var(--fmono);font-size:8.5px;letter-spacing:1.5px;color:var(--dim);
+  text-transform:uppercase;padding:8px 11px 6px}
+.umItem{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;
+  color:var(--text);cursor:pointer;text-align:left;padding:10px 11px;border-radius:8px;
+  font-family:var(--fsans);font-size:13px;transition:.15s}
+.umItem svg{width:17px;height:17px;flex:none;stroke-width:1.8;color:var(--muted)}
+.umItem small{display:block;font-size:10.5px;color:var(--dim);margin-top:1px}
+.umItem:hover{background:rgba(59,111,214,.14)}
+.umItem:hover svg{color:var(--accent-light)}
+.umItem.danger:hover{background:rgba(209,73,91,.13);color:#ff8f9c}
+.umItem.danger:hover svg{color:#ff8f9c}
+.umSep{height:1px;background:var(--border);margin:7px 4px}
+
+/* ================= SIDEBAR ================= */
+.shellBody{flex:1;display:grid;grid-template-columns:294px 1fr;align-items:start;transition:.24s}
+.shellBody.collapsed{grid-template-columns:76px 1fr}
+.sideBar{position:sticky;top:62px;padding:20px 16px;border-right:1px solid var(--border);
+  background:var(--navy-900);min-height:calc(100vh - 62px);overflow:hidden}
+.shellBody.collapsed .sideBar{padding:20px 12px}
+.sideCap{display:block;font-family:var(--fmono);font-size:9px;letter-spacing:1.5px;color:var(--dim);
+  text-transform:uppercase;padding:0 8px;margin-bottom:13px;white-space:nowrap}
+#userTabList{list-style:none;display:flex;flex-direction:column;gap:5px}
+.usrTabItem{display:flex;align-items:flex-start;gap:12px;padding:12px 13px;border-radius:10px;
+  cursor:pointer;border:1px solid transparent;transition:.18s;position:relative}
+.usrTabItem:hover{background:var(--soft);border-color:var(--border)}
+.usrTabItem.active{background:rgba(59,111,214,.13);border-color:rgba(59,111,214,.42)}
+.usrTabItem .icon{width:20px;height:20px;flex:none;margin-top:2px;color:var(--muted)}
+.usrTabItem.active .icon{color:var(--accent-light)}
+.usrTabItem .tabInfo h3{font-size:13px;font-weight:600;letter-spacing:-.1px;line-height:1.3;white-space:nowrap}
+.usrTabItem .tabInfo p{font-size:11px;color:var(--dim);line-height:1.45;margin-top:2px}
+.usrTabItem.active .tabInfo h3{color:#fff}
+.sideSep{height:1px;background:var(--border);margin:11px 6px}
+.shellBody.collapsed .sideCap{opacity:0;height:0;margin:0;overflow:hidden}
+.shellBody.collapsed .usrTabItem{justify-content:center;padding:13px 0}
+.shellBody.collapsed .usrTabItem .icon{margin-top:0}
+.shellBody.collapsed .tabInfo{display:none}
+.shellBody.collapsed .usrTabItem:hover::after{content:attr(data-tip);position:absolute;
+  left:calc(100% + 10px);top:50%;transform:translateY(-50%);z-index:50;background:var(--navy-800);
+  border:1px solid var(--border-lt);border-radius:7px;padding:7px 11px;font-size:12px;
+  white-space:nowrap;box-shadow:var(--sh)}
+
+/* ================= HOME ================= */
+.homeHero{position:relative;overflow:hidden;border:1px solid var(--border);
+  border-radius:var(--radius);padding:34px 32px;margin-bottom:24px;
+  background:radial-gradient(760px 420px at 88% 6%,rgba(59,111,214,.22),transparent 60%),var(--panel)}
+.homeHero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(59,111,214,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,111,214,.05) 1px,transparent 1px);background-size:44px 44px}
+.heroIn{position:relative;z-index:2;max-width:720px}
+.heroTag{display:inline-block;font-family:var(--fmono);font-size:9.5px;letter-spacing:1.6px;
+  text-transform:uppercase;color:var(--accent-light);background:rgba(59,111,214,.12);
+  border:1px solid rgba(59,111,214,.35);padding:5px 12px;border-radius:20px;margin-bottom:16px}
+.heroIn h2{font-size:29px;font-weight:800;letter-spacing:-1px;line-height:1.22;margin-bottom:12px}
+.heroIn h2 b{color:var(--accent-light)}
+.heroIn p{font-size:13.5px;color:var(--muted);line-height:1.85}
+.heroMeta{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+.heroPill{display:flex;align-items:center;gap:8px;background:var(--navy-950);
+  border:1px solid var(--border);border-radius:9px;padding:9px 13px;font-size:12px;color:var(--muted)}
+.heroPill b{color:var(--text);font-weight:600}
+.heroPill svg{width:14px;height:14px;stroke-width:1.9;color:var(--accent-light)}
+.toolGrid{display:grid;gap:15px;grid-template-columns:repeat(auto-fill,minmax(295px,1fr))}
+.toolCard{position:relative;background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px;cursor:pointer;transition:.2s;overflow:hidden}
+.toolCard:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:var(--sh)}
+.toolCard.soon{cursor:default}
+.toolCard.soon:hover{border-color:rgba(201,138,18,.45);transform:none}
+.tcTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.tcIcon{width:42px;height:42px;flex:none;border-radius:11px;display:grid;place-items:center;
+  padding:10px;background:rgba(59,111,214,.12);border:1px solid rgba(59,111,214,.3);color:var(--accent-light)}
+.toolCard.soon .tcIcon{background:rgba(201,138,18,.1);border-color:rgba(201,138,18,.32);color:#f0c163}
+.tcBadge{font-family:var(--fmono);font-size:8.5px;letter-spacing:1.3px;text-transform:uppercase;
+  padding:4px 9px;border-radius:14px;color:#7ee0ad;background:rgba(47,158,107,.12);
+  border:1px solid rgba(47,158,107,.36)}
+.tcBadge.soon{color:#f0c163;background:rgba(201,138,18,.12);border-color:rgba(201,138,18,.38)}
+.tcBadge.adm{color:var(--accent-light);background:rgba(59,111,214,.13);border-color:rgba(59,111,214,.4)}
+.toolCard h3{font-size:15.5px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px}
+.toolCard p{font-size:12.5px;color:var(--muted);line-height:1.75}
+.tcList{list-style:none;margin-top:13px;display:flex;flex-direction:column;gap:6px}
+.tcList li{position:relative;padding-left:15px;font-size:11.5px;color:var(--dim);line-height:1.6}
+.tcList li::before{content:"";position:absolute;left:0;top:6px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.toolCard.soon .tcList li::before{background:var(--warn)}
+.tcGo{display:flex;align-items:center;gap:7px;margin-top:17px;padding-top:14px;
+  border-top:1px solid var(--border);font-family:var(--fmono);font-size:9.5px;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--accent-light)}
+.tcGo svg{width:13px;height:13px;stroke-width:2.2;transition:.2s}
+.toolCard:hover .tcGo svg{transform:translateX(4px)}
+.toolCard.soon .tcGo{color:var(--dim)}
+
+/* ================= ÁREA PRINCIPAL ================= */
+.mainArea{padding:26px 30px 60px;max-width:1560px}
+.usrPanelView{display:none;animation:fade .28s ease}
+.usrPanelView.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.cfgTitle{font-family:var(--fmono);font-size:11px;letter-spacing:2px;color:var(--muted);
+  text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.cfgGrid{display:grid;gap:18px;grid-template-columns:1fr 1fr}
+.cfgBlock{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.cfgLabel{display:block;font-size:14px;font-weight:700;letter-spacing:-.2px;margin-bottom:14px;
+  padding-bottom:11px;border-bottom:1px solid var(--border)}
+.techNote{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:14px}
+.cfgBtn{background:linear-gradient(120deg,var(--accent),var(--accent-dk));border:none;color:#fff;
+  cursor:pointer;border-radius:8px;padding:10px 17px;font-size:12.5px;font-weight:600;transition:.18s}
+.cfgBtn:hover{filter:brightness(1.11)}
+.cfgBtn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.cfgBtn.ghost{background:var(--soft);border:1px solid var(--border);color:var(--muted)}
+.cfgBtn.ghost:hover{color:var(--text);border-color:var(--border-lt);filter:none}
+.cfgCheck{display:flex;align-items:center;gap:10px;cursor:pointer;margin:5px 0 9px;user-select:none}
+.cfgCheck input{display:none}
+.cfgBox{width:17px;height:17px;flex:none;border:1.5px solid var(--border-lt);border-radius:5px;position:relative;transition:.18s}
+.cfgCheck input:checked+.cfgBox{background:var(--accent);border-color:var(--accent)}
+.cfgCheck input:checked+.cfgBox::after{content:"";position:absolute;left:4.5px;top:1px;width:5px;
+  height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
+.cfgTxt{font-size:12.5px;color:var(--muted)}
+.cfgCheck:hover .cfgTxt{color:var(--text)}
+.cfgHint{display:block;font-family:var(--fmono);font-size:10px;color:var(--dim);line-height:1.6;margin-top:9px}
+.cfgHint b{color:var(--accent-light)}
+
+/* ================= BARRA TÉCNICA (EXTRATOR) ================= */
+.techBar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  background:linear-gradient(120deg,var(--navy-850),var(--panel));border:1px solid var(--border);
+  border-left:3px solid var(--accent);border-radius:var(--radius);padding:20px 24px;margin-bottom:20px}
+.tbCode{display:inline-block;font-family:var(--fmono);font-size:9px;letter-spacing:1.8px;
+  color:var(--accent-light);background:rgba(59,111,214,.12);border:1px solid rgba(59,111,214,.35);
+  padding:4px 10px;border-radius:5px;margin-bottom:10px}
+.tbId h2{font-size:19px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.tbId p{font-size:12.5px;color:var(--muted);line-height:1.7;max-width:660px}
+.tbStatus{display:flex;align-items:center;gap:9px;font-family:var(--fmono);font-size:9.5px;
+  letter-spacing:1.4px;color:var(--muted);background:var(--navy-950);border:1px solid var(--border);
+  border-radius:20px;padding:8px 15px;white-space:nowrap}
+.stDot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--dim);transition:.25s}
+.stDot.rdy{background:var(--ok);box-shadow:0 0 9px var(--ok)}
+.stDot.run{background:var(--warn);box-shadow:0 0 9px var(--warn);animation:bl .9s infinite}
+@keyframes bl{50%{opacity:.25}}
+.stepBlock{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:16px;overflow:hidden}
+.stepHead{display:flex;align-items:center;gap:13px;padding:14px 18px;
+  background:var(--navy-850);border-bottom:1px solid var(--border)}
+.stepNum{width:30px;height:30px;flex:none;border-radius:8px;display:grid;place-items:center;
+  font-family:var(--fmono);font-size:11px;font-weight:700;color:var(--accent-light);
+  background:rgba(59,111,214,.13);border:1px solid rgba(59,111,214,.38)}
+.stepHead h3{font-size:13.5px;font-weight:700;letter-spacing:-.2px}
+.stepHead p{font-family:var(--fmono);font-size:9.5px;letter-spacing:.8px;color:var(--dim);
+  text-transform:uppercase;margin-top:2px}
+.stepBody{padding:18px}
+.stepDuo{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cmdRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+@media(max-width:1100px){.stepDuo{grid-template-columns:1fr}}
+
+/* ================= DROPZONES ================= */
+.dz{border:1.5px dashed var(--border);border-radius:11px;padding:40px 20px;text-align:center;
+  cursor:pointer;background:var(--soft);transition:.2s}
+.dz:hover,.dz.dragging{border-color:var(--accent);background:rgba(59,111,214,.08)}
+.dz svg{width:38px;height:38px;stroke:var(--muted);stroke-width:1.4;margin-bottom:12px}
+.dz:hover svg,.dz.dragging svg{stroke:var(--accent-light)}
+.dzMain{font-size:13.5px;font-weight:600;margin-bottom:5px}
+.dzSub{font-family:var(--fmono);font-size:9.5px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase}
+.folderDrop{border:1.5px dashed var(--border);border-radius:9px;padding:22px 18px;text-align:center;
+  cursor:pointer;background:var(--soft);transition:.2s}
+.folderDrop:hover,.folderDrop.dragging{border-color:var(--accent);background:rgba(59,111,214,.07)}
+.folderDrop svg{width:28px;height:28px;stroke:var(--muted);stroke-width:1.5;margin-bottom:8px}
+.folderDrop:hover svg{stroke:var(--accent-light)}
+.treeBox{font-family:var(--fmono);font-size:11px;line-height:1.75;color:var(--muted);
+  background:var(--navy-950);border:1px solid var(--border);border-radius:8px;padding:13px;
+  max-height:250px;overflow:auto;margin-top:12px;display:none;white-space:pre}
+.treeBox.show{display:block}
+.treeBox b{color:var(--accent-light)}
+.logBox{display:none;font-family:var(--fmono);font-size:10.5px;
+  background:var(--navy-950);border:1px solid var(--border);border-radius:8px;padding:11px;
+  max-height:190px;overflow:auto;line-height:1.75;color:#8fc2ff}
+.logBox.show{display:block}
+
+/* ===== DIAGNÓSTICO DO MODO DE LEITURA ===== */
+.modeFlag{display:none;margin-top:12px;font-family:var(--fmono);font-size:10px;line-height:1.7;
+  border-radius:8px;padding:10px 12px;border:1px solid var(--border);background:var(--navy-950)}
+.modeFlag.show{display:block}
+.modeFlag.ok{color:#7ee0ad;border-color:rgba(47,158,107,.4);background:rgba(47,158,107,.09)}
+.modeFlag.warn{color:#f0c163;border-color:rgba(201,138,18,.42);background:rgba(201,138,18,.09)}
+.modeFlag b{color:var(--text)}
+
+/* ================= EXTRATOR ================= */
+.metaStrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
+.metaCard{background:var(--navy-950);border:1px solid var(--border);border-radius:9px;padding:12px 13px}
+.metaCard span{display:block;font-family:var(--fmono);font-size:8.5px;letter-spacing:1.2px;
+  color:var(--dim);text-transform:uppercase;margin-bottom:5px}
+.metaCard strong{font-size:17px;font-weight:700;letter-spacing:-.4px}
+.metaCard strong small{font-size:10px;color:var(--muted);font-weight:500}
+.qGrid{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+.qOpt{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;cursor:pointer;
+  background:var(--navy-950);border:1px solid var(--border);transition:.18s}
+.qOpt:hover{border-color:var(--border-lt)}
+.qOpt input{display:none}
+.qRadio{width:16px;height:16px;flex:none;border:1.5px solid var(--border-lt);border-radius:50%;position:relative;transition:.18s}
+.qOpt input:checked~.qRadio{border-color:var(--accent)}
+.qOpt input:checked~.qRadio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
+.qOpt:has(input:checked){border-color:rgba(59,111,214,.5);background:rgba(59,111,214,.1)}
+.qInfo strong{display:block;font-size:12.5px;font-weight:600}
+.qInfo span{font-family:var(--fmono);font-size:9.5px;letter-spacing:.8px;color:var(--dim);text-transform:uppercase}
+.qTag{margin-left:auto;font-family:var(--fmono);font-size:9px;letter-spacing:.8px;padding:3px 8px;
+  border-radius:14px;text-transform:uppercase;color:var(--muted);background:var(--soft);border:1px solid var(--border)}
+.progWrap{display:none;margin-bottom:14px}
+.progWrap.show{display:block}
+.progHead{display:flex;justify-content:space-between;font-family:var(--fmono);font-size:10px;
+  letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+.progTrack{height:6px;border-radius:4px;background:var(--navy-950);border:1px solid var(--border);overflow:hidden}
+.progFill{height:100%;width:0;border-radius:4px;transition:width .25s;
+  background:linear-gradient(90deg,var(--accent),var(--accent-light))}
+.resHead{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  margin:24px 0 14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.resTitle{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.miniBtn{background:var(--soft);border:1px solid var(--border);color:var(--muted);cursor:pointer;
+  border-radius:7px;padding:7px 12px;font-family:var(--fmono);font-size:10px;letter-spacing:.9px;
+  text-transform:uppercase;transition:.18s}
+.miniBtn:hover{color:var(--text);border-color:var(--border-lt)}
+.miniBtn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.miniBtn.pri:hover{filter:brightness(1.12);color:#fff}
+.miniBtn.danger:hover{color:#ff8f9c;border-color:rgba(209,73,91,.5)}
+.imgGrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+.imgCard{background:var(--panel);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:.2s}
+.imgCard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--sh)}
+.imgCard.sel{border-color:var(--accent-light);box-shadow:0 0 0 2px rgba(107,157,255,.28)}
+.imgThumb{height:158px;display:grid;place-items:center;background:var(--navy-950);
+  border-bottom:1px solid var(--border);overflow:hidden}
+.imgThumb img{max-width:100%;max-height:100%;object-fit:contain;cursor:zoom-in}
+.imgFoot{padding:11px 12px}
+.imgFoot h4{font-size:11.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.imgFoot p{font-family:var(--fmono);font-size:9.5px;letter-spacing:.6px;color:var(--dim);
+  margin:3px 0 9px;text-transform:uppercase}
+.emptyState{text-align:center;padding:70px 20px;color:var(--dim);font-family:var(--fmono);
+  font-size:11px;letter-spacing:1.2px;text-transform:uppercase}
+
+/* ===== VISUALIZADOR ===== */
+.extSplit{display:grid;gap:16px;grid-template-columns:1fr 350px;align-items:start}
+.viewDock{position:sticky;top:78px;background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;max-height:calc(100vh - 100px);overflow:auto}
+.vdHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;
+  padding-bottom:10px;border-bottom:1px solid var(--border)}
+.vdHead h4{font-family:var(--fmono);font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.vdStage{position:relative;background:#080d1c;border:1px solid var(--border);border-radius:9px;
+  min-height:230px;display:grid;place-items:center;overflow:auto;padding:10px;
+  background-image:linear-gradient(rgba(59,111,214,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,111,214,.05) 1px,transparent 1px);background-size:22px 22px}
+.vdStage img{max-width:100%;object-fit:contain;transition:transform .18s;
+  box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.vdEmpty{font-family:var(--fmono);font-size:10px;letter-spacing:1.2px;color:var(--dim);
+  text-transform:uppercase;text-align:center;line-height:1.8;padding:24px 10px}
+.vdInfo{margin-top:12px;display:flex;flex-direction:column;gap:5px;font-family:var(--fmono);
+  font-size:10.5px;color:var(--dim);line-height:1.7;word-break:break-all}
+.vdInfo b{color:var(--text);font-weight:500}
+.vdActs{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px;padding-top:12px;border-top:1px solid var(--border)}
+.vdNav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:11px}
+.vdNav span{font-family:var(--fmono);font-size:10px;color:var(--muted);letter-spacing:1px}
+@media(max-width:1280px){.extSplit{grid-template-columns:1fr}.viewDock{position:static;max-height:none}}
+
+/* ================= TABELAS / PILLS ================= */
+.admTable{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden}
+.admTable th{font-family:var(--fmono);font-size:9px;letter-spacing:1.3px;color:var(--muted);
+  text-transform:uppercase;text-align:left;padding:12px 14px;background:var(--navy-850);
+  border-bottom:1px solid var(--border);white-space:nowrap}
+.admTable td{padding:12px 14px;font-size:12.5px;border-bottom:1px solid rgba(34,48,74,.6);vertical-align:middle}
+.admTable tr:last-child td{border-bottom:none}
+.admTable tbody tr:hover{background:rgba(59,111,214,.05)}
+.pill{display:inline-block;font-family:var(--fmono);font-size:9px;letter-spacing:.9px;
+  text-transform:uppercase;padding:4px 9px;border-radius:14px;white-space:nowrap}
+.pill.on{color:#7ee0ad;background:rgba(47,158,107,.13);border:1px solid rgba(47,158,107,.4)}
+.pill.off{color:#ff8f9c;background:rgba(209,73,91,.13);border:1px solid rgba(209,73,91,.4)}
+.pill.adm{color:var(--accent-light);background:rgba(59,111,214,.13);border:1px solid rgba(59,111,214,.42)}
+.pill.wr{color:#f0c163;background:rgba(201,138,18,.13);border:1px solid rgba(201,138,18,.4)}
+
+/* ================= PERFIL ================= */
+.profTop{display:flex;align-items:center;gap:16px;background:var(--navy-950);
+  border:1px solid var(--border);border-radius:11px;padding:17px;margin-bottom:18px}
+.profAv{width:58px;height:58px;flex:none;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--accent),var(--accent-dk));color:#fff;font-size:21px;font-weight:800}
+.profId h2{font-size:18px;font-weight:700;letter-spacing:-.4px}
+.profId p{font-family:var(--fmono);font-size:9.5px;letter-spacing:1.2px;color:var(--muted);
+  text-transform:uppercase;margin-top:4px}
+.profTabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.profTab{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);
+  cursor:pointer;font-family:var(--fmono);font-size:10px;letter-spacing:1.1px;text-transform:uppercase;
+  padding:9px 12px;transition:.18s}
+.profTab:hover{color:var(--text)}
+.profTab.on{color:var(--accent-light);border-bottom-color:var(--accent)}
+.profPane{display:none}
+.profPane.on{display:block;animation:fade .22s ease}
+.profCols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.appDescBox h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.appDescBox p{font-size:12.5px;color:var(--muted);line-height:1.85;margin-bottom:10px}
+.appDescBox p:last-child{margin-bottom:0}
+.appDescBox b{color:var(--text)}
+
+/* ================= BUGS ================= */
+.bugItem{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:15px 17px;margin-bottom:10px}
+.bugItem header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.bugItem h4{font-size:13.5px;font-weight:600;flex:1}
+.bugItem p{font-size:12.5px;color:var(--muted);line-height:1.7;white-space:pre-wrap}
+.bugItem footer{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px;
+  padding-top:11px;border-top:1px solid var(--border);font-family:var(--fmono);font-size:9.5px;
+  letter-spacing:.8px;color:var(--dim);text-transform:uppercase}
+.statRow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:18px}
+.mailNote{display:flex;align-items:flex-start;gap:9px;background:var(--navy-950);
+  border:1px solid var(--border);border-radius:9px;padding:11px 12px;margin-bottom:14px;
+  font-family:var(--fmono);font-size:10px;line-height:1.7;color:var(--dim)}
+.mailNote b{color:var(--accent-light)}
+
+/* ================= EM DESENVOLVIMENTO ================= */
+.soonWrap{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:90px 24px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius)}
+.soonBadge{font-family:var(--fmono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;
+  color:#f0c163;background:rgba(201,138,18,.13);border:1px solid rgba(201,138,18,.4);
+  padding:6px 14px;border-radius:20px;margin-bottom:22px}
+.soonWrap>svg{width:56px;height:56px;stroke:var(--border-lt);stroke-width:1.4;margin-bottom:20px}
+.soonWrap h2{margin:0 0 10px;font-size:22px;letter-spacing:-.4px}
+.soonWrap p{margin:0;font-size:13px;color:var(--muted);max-width:440px;line-height:1.8}
+
+/* ================= MODAIS / TOAST / LIGHTBOX ================= */
+.mdBack{display:none;position:fixed;inset:0;z-index:90;background:rgba(4,7,14,.8);
+  backdrop-filter:blur(5px);align-items:center;justify-content:center;padding:24px}
+.mdBack.show{display:flex}
+.mdCard{width:100%;max-width:430px;background:var(--navy-900);border:1px solid var(--border);
+  border-radius:var(--radius);padding:26px;box-shadow:var(--sh)}
+.mdCard.wide{max-width:830px;max-height:90vh;overflow:auto}
+.mdCard.xwide{max-width:1080px;max-height:90vh;overflow:auto}
+.mdHead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:7px}
+.mdCard h3{font-size:17px;font-weight:700;letter-spacing:-.3px}
+.mdX{background:var(--soft);border:1px solid var(--border);color:var(--muted);cursor:pointer;
+  width:30px;height:30px;flex:none;border-radius:8px;font-size:16px;line-height:1;transition:.18s}
+.mdX:hover{color:#ff8f9c;border-color:rgba(209,73,91,.5)}
+.mdActs{display:flex;gap:9px;justify-content:flex-end;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+#lightBox{display:none;position:fixed;inset:0;z-index:95;background:rgba(4,7,14,.94);
+  align-items:center;justify-content:center;padding:34px;cursor:zoom-out}
+#lightBox.show{display:flex}
+#lightBox img{max-width:100%;max-height:100%;object-fit:contain;border:1px solid var(--border);border-radius:8px}
+#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,26px);z-index:99;opacity:0;
+  pointer-events:none;background:var(--navy-800);border:1px solid var(--border-lt);
+  border-radius:9px;padding:12px 20px;font-size:12.5px;box-shadow:var(--sh);transition:.28s}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1080px){
+  .loginWrap{grid-template-columns:1fr}.loginRight{display:none}
+  .shellBody,.shellBody.collapsed{grid-template-columns:1fr}
+  .sideBar{position:static;min-height:0;border-right:none;border-bottom:1px solid var(--border)}
+  .cfgGrid,.profCols{grid-template-columns:1fr!important}
+  .uMeta{display:none}
+  .heroIn h2{font-size:23px}
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN ==================== -->
+<div class="loginWrap" id="loginScreen">
+  <div class="loginLeft">
+    <div class="logoRow">
+      <div class="logoMark"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21V8l9-5 9 5v13"></path><path d="M9 21v-7h6v7"></path><path d="M3 12h18"></path></svg></div>
+      <div class="logoTxt"><h1>Souza Workspace</h1><span>Souza Engenharia</span></div>
+    </div>
+    <div id="loginBox">
+      <h2>Acesso restrito</h2>
+      <p class="leadText">Acesse sua conta para entrar no workspace da Souza Engenharia.</p>
+      <div class="loginErr" id="loginErr"></div>
+      <span class="fLabel" style="margin-top:0;">Usuário</span>
+      <select class="fInput" id="selUser"></select>
+      <span class="fLabel">Senha</span>
+      <input class="fInput" id="inpPass" type="password" placeholder="••••••••" autocomplete="current-password">
+      <button id="btnLogin">Entrar</button>
+      <span class="fwdLink" id="lnkChange">// Alterar minha senha</span>
+    </div>
+  </div>
+  <div class="loginRight">
+    <div class="loginRightContent">
+      <h2>Ferramentas auxiliares de projeto, em um só ambiente.</h2>
+      <p>Plataforma interna da Souza Engenharia dedicada às <b style="color:var(--text)">funções
+         auxiliares no desenvolvimento de projetos</b>: extração de elementos técnicos de arquivos,
+         organização e padronização de pastas, tratamento de documentos e demais rotinas de apoio
+         ao trabalho técnico do dia a dia.</p>
+      <p style="margin-top:14px;">Cada colaborador acessa os painéis liberados para o seu perfil,
+         com registro de utilizações e controle centralizado pela administração.</p>
+      <div class="lrTags">
+        <span class="lrTag">Extração técnica</span>
+        <span class="lrTag">Replicador de pastas</span>
+        <span class="lrTag">Corretor textual</span>
+        <span class="lrTag">Controle de função</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== APLICAÇÃO ==================== -->
+<div id="appShell">
+  <header class="topBar">
+    <div class="tbLeft">
+      <button class="burger" id="btnBurger" title="Recolher navegação">
+        <span></span><span></span><span></span></button>
+      <div class="tbBrand" id="tbBrand" title="Voltar ao início">
+        <div class="logoMark"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21V8l9-5 9 5v13"></path><path d="M9 21v-7h6v7"></path><path d="M3 12h18"></path></svg></div>
+        <div><h1>Souza Workspace</h1><div class="subtitle">Ferramentas auxiliares de projeto</div></div>
+      </div>
+    </div>
+
+    <div class="tbRight">
+      <div class="userWrap">
+        <div class="userChip" id="userChip">
+          <div class="uAvatar" id="chipAv">--</div>
+          <div class="uMeta"><strong id="chipName">—</strong><span id="chipRole">—</span></div>
+          <svg class="uCaret" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6"></path></svg>
+        </div>
+        <div class="userMenu" id="userMenu">
+          <div class="umCap">// Minha conta</div>
+          <button class="umItem" id="umDados">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span>Meus dados<small>Cadastro e informações pessoais</small></span></button>
+          <button class="umItem admOnly" id="umFuncao" style="display:none;">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect>
+              <path d="M8 10.5V7a4 4 0 018 0v3.5"></path></svg>
+            <span>Controle de função<small>Usuários, senhas e bloqueios</small></span></button>
+          <button class="umItem" id="umConfig">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.7 1.7 0 00.34 1.87l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.7 1.7 0 00-2.9 1.2V21a2 2 0 11-4 0v-.11a1.7 1.7 0 00-2.9-1.2l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.7 1.7 0 004.6 15a1.7 1.7 0 00-1.55-1H3a2 2 0 110-4h.05A1.7 1.7 0 004.6 9a1.7 1.7 0 00-.34-1.87l-.06-.06a2 2 0 112.83-2.83l.06.06A1.7 1.7 0 009 4.6h.1A1.7 1.7 0 0010 3.05V3a2 2 0 114 0v.05a1.7 1.7 0 001 1.55 1.7 1.7 0 001.87-.34l.06-.06a2 2 0 112.83 2.83l-.06.06A1.7 1.7 0 0019.4 9v.1a1.7 1.7 0 001.55 1H21a2 2 0 110 4h-.05a1.7 1.7 0 00-1.55 1z"></path></svg>
+            <span>Configurações<small>Preferências e dados locais</small></span></button>
+          <div class="umSep"></div>
+          <button class="umItem danger" id="umSair">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><path d="M16 17l5-5-5-5"></path>
+              <path d="M21 12H9"></path></svg>
+            <span>Encerrar sessão<small>Sair da plataforma</small></span></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="shellBody" id="shellBody">
+    <aside class="sideBar">
+      <span class="sideCap">// Navegação</span>
+      <ul id="userTabList">
+        <li class="usrTabItem active" data-panel="panelHome" data-tip="Início">
+          <div class="icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11l9-7 9 7v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 20z"></path>
+            <path d="M9.5 21.5V13h5v8.5"></path></svg></div>
+          <div class="tabInfo"><h3>Início</h3><p>Boas-vindas e visão das ferramentas</p></div>
+        </li>
+        <li class="sideSep" style="list-style:none;"></li>
+        <li style="list-style:none;"><span class="sideCap">// Painéis disponíveis</span></li>
+        <li class="usrTabItem" data-panel="panelExtrator" data-tip="Extração Técnica">
+          <div class="icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"></path>
+            <path d="M14 3v5h5"></path><path d="M9 13l2.5 3 2-2.2L16 17H9z"></path></svg></div>
+          <div class="tabInfo"><h3>Extração Técnica</h3><p>Imagens e diagramas de arquivos PDF</p></div>
+        </li>
+        <li class="usrTabItem" data-panel="panelPastas" data-tip="Replicador de Pastas">
+          <div class="icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+            <path d="M12 11v5M9.5 13.5h5"></path></svg></div>
+          <div class="tabInfo"><h3>Replicador de Pastas</h3><p>Duplicar estrutura padrão de arquivos</p></div>
+        </li>
+        <li class="usrTabItem" data-panel="panelCorretor" data-tip="Corretor Textual">
+          <div class="icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19h16M6.5 15L11 4h2l4.5 11M8.2 11.5h7.6"></path></svg></div>
+          <div class="tabInfo"><h3>Corretor Textual</h3><p>Revisão ortográfica e técnica</p></div>
+        </li>
+        <li class="usrTabItem" data-panel="panelBugs" data-tip="Relatório de Bugs">
+          <div class="icon"><svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.5 6.5L5 5M17.5 6.5L19 5M6.5 17.5L5 19M17.5 17.5L19 19"></path>
+            <circle cx="12" cy="12" r="4.2"></circle></svg></div>
+          <div class="tabInfo"><h3>Relatório de Bugs</h3><p>Registrar falhas e sugestões</p></div>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="mainArea">
+
+      <!-- ============ INÍCIO ============ -->
+      <section class="usrPanelView active" id="panelHome">
+        <div class="homeHero">
+          <div class="heroIn">
+            <span class="heroTag">// Bem-vindo ao workspace</span>
+            <h2>Olá, <b id="heroName">colaborador</b>. <span id="heroGreet">Bom trabalho</span>.</h2>
+            <p>Este é o ambiente digital da <b style="color:var(--text)">Souza Engenharia</b>
+               dedicado às ferramentas auxiliares no desenvolvimento de projetos. Abaixo estão os
+               módulos disponíveis para o seu perfil — selecione um deles para começar.</p>
+            <div class="heroMeta">
+              <div class="heroPill"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.5 2"></path></svg>
+                <span>Sessão iniciada em <b id="heroSess">—</b></span></div>
+              <div class="heroPill"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>Perfil <b id="heroRole">—</b></span></div>
+              <div class="heroPill"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19h16M7 15V9M12 15V5M17 15v-7"></path></svg>
+                <span><b id="heroUses">0</b> utilização(ões) registrada(s)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="cfgTitle">// FERRAMENTAS DISPONÍVEIS</h3>
+        <div class="toolGrid">
+
+          <div class="toolCard" data-go="panelExtrator">
+            <div class="tcTop">
+              <div class="tcIcon"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"></path>
+                <path d="M14 3v5h5"></path><path d="M9 13l2.5 3 2-2.2L16 17H9z"></path></svg></div>
+              <span class="tcBadge">Disponível</span>
+            </div>
+            <h3>Extração Técnica</h3>
+            <p>Recupera <b style="color:var(--text)">objetos rasterizados incorporados</b> e segmenta
+               <b style="color:var(--text)">diagramas vetoriais</b> em documentos PDF, com saída
+               sem perdas em alta densidade.</p>
+            <ul class="tcList">
+              <li>Rasterização de 150 a 600 DPI reais</li>
+              <li>PNG/WEBP lossless · reamostragem progressiva</li>
+              <li>Visualizador de inspeção e exportação .ZIP</li>
+            </ul>
+            <div class="tcGo">Abrir ferramenta
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+          <div class="toolCard" data-go="panelPastas">
+            <div class="tcTop">
+              <div class="tcIcon"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
+                <path d="M12 11v5M9.5 13.5h5"></path></svg></div>
+              <span class="tcBadge">Disponível</span>
+            </div>
+            <h3>Replicador de Pastas</h3>
+            <p>Lê uma pasta modelo com toda a sua árvore — <b style="color:var(--text)">inclusive
+               pastas vazias</b> — e a replica quantas vezes for necessário, copiando os
+               arquivos-modelo.</p>
+            <ul class="tcList">
+              <li>Leitura fiel via seletor nativo de diretórios</li>
+              <li>Máscaras com título, numeração, mês e ano</li>
+              <li>Auditoria pós-gravação e histórico do método</li>
+            </ul>
+            <div class="tcGo">Abrir ferramenta
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+          <div class="toolCard soon" data-go="panelCorretor">
+            <div class="tcTop">
+              <div class="tcIcon"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19h16M6.5 15L11 4h2l4.5 11M8.2 11.5h7.6"></path></svg></div>
+              <span class="tcBadge soon">Em breve</span>
+            </div>
+            <h3>Corretor Textual</h3>
+            <p>Revisão ortográfica, gramatical e de padronização técnica de textos utilizados em
+               memoriais, relatórios e documentos de projeto.</p>
+            <ul class="tcList">
+              <li>Correção de ortografia e concordância</li>
+              <li>Padronização de termos técnicos e unidades</li>
+              <li>Módulo em desenvolvimento</li>
+            </ul>
+            <div class="tcGo">Ver módulo
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+          <div class="toolCard" data-go="panelBugs">
+            <div class="tcTop">
+              <div class="tcIcon"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v2M12 19v2M5 12H3M21 12h-2M6.5 6.5L5 5M17.5 6.5L19 5M6.5 17.5L5 19M17.5 17.5L19 19"></path>
+                <circle cx="12" cy="12" r="4.2"></circle></svg></div>
+              <span class="tcBadge">Disponível</span>
+            </div>
+            <h3>Relatório de Bugs</h3>
+            <p>Canal interno para registro de falhas e sugestões. Cada ocorrência é gravada
+               localmente e encaminhada pelo seu próprio Outlook.</p>
+            <ul class="tcList">
+              <li>Classificação por módulo e severidade</li>
+              <li>Encaminhamento por Outlook ou arquivo .eml</li>
+              <li>Acompanhamento de status e exportação em CSV</li>
+            </ul>
+            <div class="tcGo">Abrir ferramenta
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+          <div class="toolCard admOnly" id="cardFuncao" style="display:none;">
+            <div class="tcTop">
+              <div class="tcIcon"><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="10.5" width="16" height="10.5" rx="2"></rect>
+                <path d="M8 10.5V7a4 4 0 018 0v3.5"></path></svg></div>
+              <span class="tcBadge adm">Administração</span>
+            </div>
+            <h3>Controle de Função</h3>
+            <p>Gestão das credenciais da equipe: perfis de acesso, redefinição de senhas e bloqueio
+               de contas. Disponível apenas para administradores.</p>
+            <ul class="tcList">
+              <li>Situação de cada credencial em tempo real</li>
+              <li>Redefinição para a senha de primeiro acesso</li>
+              <li>Bloqueio e desbloqueio de contas</li>
+            </ul>
+            <div class="tcGo">Abrir janela
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6"></path></svg></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ EXTRAÇÃO TÉCNICA ============ -->
+      <section class="usrPanelView" id="panelExtrator">
+
+        <div class="techBar">
+          <div class="tbId">
+            <span class="tbCode">MOD-EXT-01</span>
+            <h2>Extração Técnica de Elementos Gráficos</h2>
+            <p>Recuperação de objetos rasterizados incorporados e segmentação de diagramas
+               vetoriais em documentos PDF · pipeline local de alta fidelidade, sem transmissão
+               de dados.</p>
+          </div>
+          <div class="tbStatus">
+            <span class="stDot" id="stDot"></span>
+            <span id="stTxt">AGUARDANDO DOCUMENTO</span>
+          </div>
+        </div>
+
+        <div class="extSplit">
+          <div>
+
+            <div class="stepBlock">
+              <div class="stepHead"><span class="stepNum">01</span>
+                <div><h3>Entrada do documento</h3>
+                  <p>Arquivo fonte em formato PDF · vetorial ou digitalizado</p></div>
+              </div>
+              <div class="stepBody">
+                <div class="dz" id="pdfDrop">
+                  <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                    <path d="M7 9l5-5 5 5"></path><path d="M12 4v12"></path></svg>
+                  <div class="dzMain">Clique ou arraste o arquivo PDF</div>
+                  <div class="dzSub">Processamento local · nenhum upload</div>
+                  <input type="file" id="pdfInput" accept="application/pdf" style="display:none">
+                </div>
+                <div class="metaStrip">
+                  <div class="metaCard"><span>Arquivo</span><strong id="mFile" style="font-size:12px;">—</strong></div>
+                  <div class="metaCard"><span>Páginas</span><strong id="mPages">0</strong></div>
+                  <div class="metaCard"><span>Volume</span><strong id="mSize">0 <small>MB</small></strong></div>
+                  <div class="metaCard"><span>Elementos</span><strong id="mFound">0</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stepDuo">
+              <div class="stepBlock">
+                <div class="stepHead"><span class="stepNum">02</span>
+                  <div><h3>Parâmetros de saída</h3>
+                    <p>Densidade · reamostragem · codificação</p></div>
+                </div>
+                <div class="stepBody">
+                  <span class="fLabel" style="margin-top:0;">Densidade de rasterização (diagramas)</span>
+                  <select class="fInput" id="selDpi">
+                    <option value="150">150 DPI — leitura em tela</option>
+                    <option value="300" selected>300 DPI — padrão técnico (recomendado)</option>
+                    <option value="450">450 DPI — impressão de precisão</option>
+                    <option value="600">600 DPI — plotagem / arquivo mestre</option>
+                  </select>
+
+                  <span class="fLabel">Reamostragem (objetos incorporados)</span>
+                  <div class="qGrid">
+                    <label class="qOpt"><input type="radio" name="qual" value="1" checked><span class="qRadio"></span>
+                      <span class="qInfo"><strong>Nativa 1×</strong><span>pixel a pixel · sem interpolação</span></span>
+                      <span class="qTag">Fiel</span></label>
+                    <label class="qOpt"><input type="radio" name="qual" value="2"><span class="qRadio"></span>
+                      <span class="qInfo"><strong>Progressiva 2×</strong><span>half-step bicúbico sucessivo</span></span>
+                      <span class="qTag">Alta</span></label>
+                    <label class="qOpt"><input type="radio" name="qual" value="3"><span class="qRadio"></span>
+                      <span class="qInfo"><strong>Progressiva 3×</strong><span>detalhe máximo · arquivo maior</span></span>
+                      <span class="qTag">Máx.</span></label>
+                  </div>
+
+                  <span class="fLabel">Codificação do arquivo</span>
+                  <select class="fInput" id="selFmt">
+                    <option value="image/png" selected>PNG — sem perdas, com transparência</option>
+                    <option value="image/webp">WEBP — sem perdas, arquivo reduzido</option>
+                    <option value="image/jpeg">JPEG — qualidade 0.98, fundo branco</option>
+                  </select>
+                  <small class="cfgHint">PNG e WEBP operam em modo <b>lossless</b>: nenhuma
+                    recompressão é aplicada sobre o objeto original.</small>
+                </div>
+              </div>
+
+              <div class="stepBlock">
+                <div class="stepHead"><span class="stepNum">03</span>
+                  <div><h3>Escopo da varredura</h3>
+                    <p>Filtros · sensibilidade · intervalo</p></div>
+                </div>
+                <div class="stepBody">
+                  <label class="cfgCheck"><input type="checkbox" id="chkEmbedded" checked><span class="cfgBox"></span>
+                    <span class="cfgTxt">Objetos rasterizados incorporados (XObject)</span></label>
+                  <label class="cfgCheck"><input type="checkbox" id="chkVector"><span class="cfgBox"></span>
+                    <span class="cfgTxt">Diagramas vetoriais por densidade de traço</span></label>
+                  <label class="cfgCheck"><input type="checkbox" id="chkDedup" checked><span class="cfgBox"></span>
+                    <span class="cfgTxt">Suprimir objetos redundantes na mesma página</span></label>
+                  <label class="cfgCheck"><input type="checkbox" id="chkSkipWm" checked><span class="cfgBox"></span>
+                    <span class="cfgTxt">Suprimir marcas d'água recorrentes (hash perceptual)</span></label>
+                  <label class="cfgCheck"><input type="checkbox" id="chkSkipTiny" checked><span class="cfgBox"></span>
+                    <span class="cfgTxt">Descartar elementos inferiores a 48 px</span></label>
+
+                  <span class="fLabel">Sensibilidade de segmentação</span>
+                  <select class="fInput" id="selSens">
+                    <option value="low">Baixa — blocos amplos</option>
+                    <option value="medium" selected>Média — padrão</option>
+                    <option value="high">Alta — detalhes finos</option>
+                  </select>
+
+                  <span class="fLabel">Intervalo de páginas</span>
+                  <input class="fInput" id="inpRange" placeholder="Ex.: 1-5, 8, 12-14 · vazio = integral">
+
+                  <div class="cmdRow">
+                    <button class="cfgBtn" id="btnExtract" disabled>Executar extração</button>
+                    <button class="cfgBtn ghost" id="btnDetect" disabled>Segmentar diagramas</button>
+                    <button class="cfgBtn ghost" id="btnReset">Reiniciar</button>
+                  </div>
+                  <small class="cfgHint">Nomenclatura de saída:
+                    <b>DOCUMENTO - PÁGINA n - ITEM k</b></small>
+                </div>
+              </div>
+            </div>
+
+            <div class="stepBlock">
+              <div class="stepHead"><span class="stepNum">04</span>
+                <div><h3>Telemetria do processamento</h3>
+                  <p>Progresso e registro técnico da execução</p></div>
+              </div>
+              <div class="stepBody">
+                <div class="progWrap" id="progWrap">
+                  <div class="progHead"><span id="progLbl">Em espera</span><span id="progPct">0%</span></div>
+                  <div class="progTrack"><div class="progFill" id="progFill"></div></div>
+                </div>
+                <div class="logBox" id="extLog"></div>
+                <small class="cfgHint" style="margin-top:2px;">O registro detalhado pode ser
+                  desativado em <b>Configurações → Comportamento</b>.</small>
+              </div>
+            </div>
+
+            <div class="resHead">
+              <h3 class="resTitle">Acervo extraído
+                <span id="resCount" style="color:var(--muted);font-weight:500;">(0)</span></h3>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="miniBtn" id="btnSaveDisk">Gravar em pasta</button>
+                <button class="miniBtn pri" id="btnZipAll">Exportar .ZIP</button>
+                <button class="miniBtn danger" id="btnClearRes">Descartar acervo</button>
+              </div>
+            </div>
+            <div class="imgGrid" id="imgGrid"></div>
+            <div class="emptyState" id="extEmpty">// acervo vazio · nenhuma extração executada</div>
+          </div>
+
+          <aside class="viewDock" id="viewDock">
+            <div class="vdHead">
+              <h4>// Inspeção do elemento</h4>
+              <button class="miniBtn" id="vdFull" title="Ampliar">⤢</button>
+            </div>
+            <div class="vdStage" id="vdStage">
+              <div class="vdEmpty" id="vdEmpty">Nenhum elemento<br>selecionado<br><br>
+                selecione um item do acervo</div>
+              <img id="vdImg" alt="" style="display:none;">
+            </div>
+            <div class="vdNav">
+              <button class="miniBtn" id="vdPrev">‹ Anterior</button>
+              <span id="vdPos">0 / 0</span>
+              <button class="miniBtn" id="vdNext">Próximo ›</button>
+            </div>
+            <div class="vdInfo">
+              <span>Identificação: <b id="vdName">—</b></span>
+              <span>Procedência: <b id="vdOrig">—</b></span>
+              <span>Resolução: <b id="vdDim">—</b></span>
+              <span>Volume: <b id="vdSize">—</b></span>
+              <span>Codificação: <b id="vdFmt">—</b></span>
+            </div>
+            <div class="vdActs">
+              <button class="miniBtn" id="vdZoomOut">−</button>
+              <button class="miniBtn" id="vdZoomIn">+</button>
+              <button class="miniBtn" id="vdZoomRst">100%</button>
+              <button class="miniBtn pri" id="vdDl" style="flex:1;">⤓ Baixar</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ REPLICADOR DE PASTAS ============ -->
+      <section class="usrPanelView" id="panelPastas">
+        <h3 class="cfgTitle">// REPLICADOR DE ESTRUTURA DE PASTAS</h3>
+        <div class="cfgGrid" style="grid-template-columns:1.1fr 1fr;">
+
+          <div class="cfgBlock">
+            <span class="cfgLabel">01 · Pasta modelo</span>
+            <p class="techNote">Selecione a pasta padrão pelo <b>seletor nativo</b> (recomendado) —
+               único método que detecta <b>pastas vazias</b> e permite copiar os arquivos internos
+               com fidelidade integral.</p>
+
+            <button class="cfgBtn" id="btnPickModel" style="width:100%;margin-bottom:10px;">
+              📂 Selecionar pasta modelo (leitura completa)</button>
+
+            <div class="folderDrop" id="folderDrop">
+              <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
+              <div class="dzMain">ou arraste a pasta modelo aqui</div>
+              <div class="dzSub">arrastar também detecta pastas vazias</div>
+              <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none">
+            </div>
+            <span class="fwdLink" id="lnkLegacy" style="text-align:left;padding-left:2px;">
+              // usar seleção por clique (modo limitado)</span>
+
+            <div class="modeFlag" id="modeFlag"></div>
+
+            <label class="cfgCheck" style="margin-top:14px;">
+              <input type="checkbox" id="chkCopyFiles" checked><span class="cfgBox"></span>
+              <span class="cfgTxt">Copiar também os arquivos-modelo</span></label>
+            <small class="cfgHint" style="margin-top:0;">Desmarque para criar somente a árvore de
+              diretórios (mais rápido).</small>
+            <div class="treeBox" id="treeBox"></div>
+          </div>
+
+          <div>
+            <div class="cfgBlock" style="margin-bottom:16px;">
+              <span class="cfgLabel">02 · Nomeação e quantidade</span>
+              <span class="fLabel" style="margin-top:0;">Título da pasta</span>
+              <input class="fInput" id="repBase" placeholder="Ex.: PROJETO CENTRO">
+              <span class="fLabel">Máscara de nomeação</span>
+              <input class="fInput" id="repMask" value="{titulo}-{n}">
+              <span class="fLabel">Quantidade de réplicas</span>
+              <input class="fInput" id="repQty" type="number" min="1" max="300" value="5">
+              <span class="fLabel">Numeração inicial</span>
+              <input class="fInput" id="repStart" type="number" min="0" value="1">
+              <label class="cfgCheck"><input type="checkbox" id="repPad" checked><span class="cfgBox"></span>
+                <span class="cfgTxt">Zeros à esquerda (001, 002…)</span></label>
+              <small class="cfgHint">Variáveis: <b>{titulo}</b> · <b>{n}</b> · <b>{ano}</b> ·
+                <b>{mes}</b> · <b>{data}</b></small>
+            </div>
+            <div class="cfgBlock">
+              <span class="cfgLabel">03 · Destino e execução</span>
+              <span class="fLabel" style="margin-top:0;">Pasta de destino</span>
+              <div style="display:flex;gap:8px;margin-bottom:14px;">
+                <input class="fInput" id="dirLabel" style="margin:0;" disabled placeholder="Nenhuma pasta selecionada">
+                <button class="cfgBtn" id="btnPickDir" style="white-space:nowrap;">Escolher…</button>
+              </div>
+              <div id="repPreview" style="font-family:var(--fmono);font-size:11px;color:var(--muted);
+                max-height:130px;overflow:auto;line-height:1.7;margin-bottom:14px;">—</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="cfgBtn" id="btnRepRun">Replicar no disco</button>
+                <button class="cfgBtn ghost" id="btnRepZip">Baixar .ZIP</button>
+              </div>
+              <div class="logBox" id="repLog" style="margin-top:12px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="resHead">
+          <h3 class="resTitle" id="histTitle">Histórico de utilizações</h3>
+          <div style="display:flex;gap:8px;">
+            <button class="miniBtn" id="btnHistExport">Exportar CSV</button>
+            <button class="miniBtn danger" id="btnHistClear" style="display:none;">Limpar histórico</button>
+          </div>
+        </div>
+        <table class="admTable">
+          <thead><tr><th>Data / Hora</th><th>Operador</th><th>Título</th><th>Réplicas</th>
+            <th>Pastas</th><th>Destino / Leitura</th><th>Modo</th></tr></thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </section>
+
+      <!-- ============ CORRETOR TEXTUAL ============ -->
+      <section class="usrPanelView" id="panelCorretor">
+        <h3 class="cfgTitle">// CORRETOR TEXTUAL</h3>
+        <div class="soonWrap">
+          <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19h16M6.5 15L11 4h2l4.5 11M8.2 11.5h7.6"></path></svg>
+          <div class="soonBadge">Em desenvolvimento</div>
+          <h2>Módulo em construção</h2>
+          <p>A ferramenta de revisão ortográfica, gramatical e de padronização técnica de textos
+             está sendo desenvolvida e será liberada em breve para toda a equipe.</p>
+        </div>
+      </section>
+
+      <!-- ============ BUGS ============ -->
+      <section class="usrPanelView" id="panelBugs">
+        <h3 class="cfgTitle">// RELATÓRIO DE BUGS E SUGESTÕES</h3>
+        <div class="statRow" id="bugStats" style="display:none;">
+          <div class="metaCard"><span>Total</span><strong id="bsTotal">0</strong></div>
+          <div class="metaCard"><span>Abertos</span><strong id="bsOpen">0</strong></div>
+          <div class="metaCard"><span>Resolvidos</span><strong id="bsDone">0</strong></div>
+          <div class="metaCard"><span>Críticos</span><strong id="bsCrit">0</strong></div>
+        </div>
+        <div class="cfgGrid" style="grid-template-columns:1fr 1.25fr;">
+
+          <form class="cfgBlock" id="bugForm" novalidate>
+            <span class="cfgLabel">Registrar ocorrência</span>
+            <div class="mailNote">
+              <span>// A ocorrência é gravada <b>neste navegador</b>. Para encaminhar, use
+                <b>✉ Outlook</b> ou <b>⤓ .eml</b> no card da ocorrência — destino:
+                <b>arthursouzaeng@outlook.com.br</b>. Nenhum servidor externo é acionado.</span>
+            </div>
+            <span class="fLabel" style="margin-top:0;">Módulo afetado</span>
+            <select class="fInput" id="bgModule" required>
+              <option>Extração Técnica</option><option>Replicador de Pastas</option>
+              <option>Corretor Textual</option><option>Início / Navegação</option>
+              <option>Meus dados</option><option>Controle de função</option>
+              <option>Login / Acesso</option><option>Outro</option>
+            </select>
+            <span class="fLabel">Severidade</span>
+            <select class="fInput" id="bgSev" required>
+              <option value="baixa">Baixa — cosmético</option>
+              <option value="media" selected>Média — atrapalha o uso</option>
+              <option value="alta">Alta — função indisponível</option>
+              <option value="critica">Crítica — impede o trabalho</option>
+            </select>
+            <span class="fLabel">Título</span>
+            <input class="fInput" id="bgTitle" maxlength="90" placeholder="Resumo em uma linha" required>
+            <span class="fLabel">Descrição e passos para reproduzir</span>
+            <textarea class="fInput" id="bgDesc" rows="5" required
+              placeholder="1. Acessei…&#10;2. Cliquei em…&#10;3. Ocorreu…"></textarea>
+            <span class="fLabel">E-mail para retorno (opcional)</span>
+            <input class="fInput" id="bgMail" type="email" placeholder="seu.email@souzaengenharia.com.br">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;">
+              <button class="cfgBtn" id="btnBugSend" type="submit">Registrar ocorrência</button>
+              <button class="cfgBtn ghost" id="btnBugLote" type="button">✉ Enviar lote (.eml)</button>
+            </div>
+          </form>
+
+          <div>
+            <div class="resHead" style="margin-top:0;">
+              <h3 class="resTitle" id="bugListTitle">Minhas ocorrências</h3>
+              <button class="miniBtn" id="btnBugExport">Exportar CSV</button>
+            </div>
+            <div id="bugList"></div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!-- ==================== MODAL MEUS DADOS ==================== -->
+<div class="mdBack" id="mdProfile">
+  <div class="mdCard wide">
+    <div class="mdHead">
+      <div><h3>Meus dados</h3>
+        <p class="techNote" style="margin:5px 0 0;">Dados cadastrais do colaborador, armazenados
+           localmente neste navegador.</p></div>
+      <button class="mdX" id="prfX">✕</button>
+    </div>
+    <div class="profTop">
+      <div class="profAv" id="profAv">--</div>
+      <div class="profId"><h2 id="profName">—</h2><p id="profRole">—</p></div>
+    </div>
+    <div class="profTabs">
+      <button class="profTab on" data-pane="paneDados">Cadastro</button>
+      <button class="profTab" data-pane="paneSeg">Segurança</button>
+      <button class="profTab" data-pane="paneSobre">Sobre a plataforma</button>
+    </div>
+    <div class="profPane on" id="paneDados">
+      <div class="profCols">
+        <div>
+          <span class="fLabel" style="margin-top:0;">Nome completo</span>
+          <input class="fInput" id="pfFull" placeholder="Nome completo">
+          <span class="fLabel">Cargo / Função</span>
+          <input class="fInput" id="pfCargo" disabled>
+          <span class="fLabel">Setor</span>
+          <select class="fInput" id="pfSetor">
+            <option>Projetos</option><option>Suporte Técnico</option><option>Documentação</option>
+            <option>Administrativo</option><option>Gestão</option>
+          </select>
+          <span class="fLabel">Data de nascimento</span>
+          <input class="fInput" id="pfNasc" type="date">
+        </div>
+        <div>
+          <span class="fLabel" style="margin-top:0;">E-mail corporativo</span>
+          <input class="fInput" id="pfMail" type="email" placeholder="nome@souzaengenharia.com.br">
+          <span class="fLabel">Telefone / WhatsApp</span>
+          <input class="fInput" id="pfTel" placeholder="(37) 0 0000-0000">
+          <span class="fLabel">Registro profissional (CREA/CFT)</span>
+          <input class="fInput" id="pfCrea" placeholder="Ex.: MG-000000/D">
+          <span class="fLabel">Observações internas</span>
+          <textarea class="fInput" id="pfObs" rows="3" placeholder="Informações complementares"></textarea>
+        </div>
+      </div>
+      <div class="mdActs">
+        <button class="cfgBtn ghost" id="btnProfReload">Descartar alterações</button>
+        <button class="cfgBtn" id="btnProfSave">Salvar dados</button>
+      </div>
+    </div>
+    <div class="profPane" id="paneSeg">
+      <div class="profCols">
+        <div class="cfgBlock" style="background:var(--navy-950);">
+          <span class="cfgLabel">Credencial de acesso</span>
+          <p class="techNote">A alteração de senha exige a chave mestra fornecida pela
+             administração. Recomenda-se trocar a senha padrão no primeiro acesso.</p>
+          <button class="cfgBtn" id="btnPassFromProf">Alterar minha senha</button>
+        </div>
+        <div class="cfgBlock" style="background:var(--navy-950);">
+          <span class="cfgLabel">Sessão atual</span>
+          <div class="metaStrip" style="margin-top:0;">
+            <div class="metaCard"><span>Usuário</span><strong id="sgUser" style="font-size:12px;">—</strong></div>
+            <div class="metaCard"><span>Perfil</span><strong id="sgRole" style="font-size:12px;">—</strong></div>
+            <div class="metaCard"><span>Início</span><strong id="sgSess" style="font-size:12px;">—</strong></div>
+            <div class="metaCard"><span>Utilizações</span><strong id="sgUses">0</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profPane" id="paneSobre">
+      <div class="appDescBox">
+        <h3>Sobre a Plataforma</h3>
+        <p>O <b>Souza Workspace</b> reúne as <b>ferramentas auxiliares utilizadas no
+           desenvolvimento de projetos</b> da Souza Engenharia. Não substitui os softwares
+           técnicos: atua nas rotinas de apoio que consomem tempo no dia a dia.</p>
+        <p>O módulo <b>Extração Técnica</b> recupera objetos rasterizados incorporados em PDF e
+           segmenta diagramas vetoriais com rasterização de até 600 DPI, entregando cada elemento
+           como arquivo individual sem perdas.</p>
+        <p>O <b>Replicador de Pastas</b> duplica a estrutura padrão de arquivos com fidelidade
+           integral — incluindo pastas vazias e os arquivos-modelo — e audita o resultado após a
+           gravação.</p>
+        <p>Novos módulos serão incorporados progressivamente. Sugestões e falhas devem ser
+           registradas em <b>Relatório de Bugs</b> — o encaminhamento é feito pelo seu próprio
+           cliente de e-mail.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL CONTROLE DE FUNÇÃO ==================== -->
+<div class="mdBack" id="mdAcessos">
+  <div class="mdCard xwide">
+    <div class="mdHead">
+      <div><h3>Controle de função</h3>
+        <p class="techNote" style="margin:5px 0 0;">Gestão de credenciais e permissões da equipe.
+           Contas administradoras não podem ser bloqueadas. A redefinição devolve a senha ao
+           padrão de primeiro acesso.</p></div>
+      <button class="mdX" id="accX">✕</button>
+    </div>
+    <table class="admTable">
+      <thead><tr><th>Colaborador</th><th>Cargo</th><th>Perfil</th><th>Senha</th>
+        <th>Situação</th><th style="text-align:right;">Ações</th></tr></thead>
+      <tbody id="accBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== MODAL CONFIGURAÇÕES ==================== -->
+<div class="mdBack" id="mdConfig">
+  <div class="mdCard wide">
+    <div class="mdHead">
+      <div><h3>Configurações</h3>
+        <p class="techNote" style="margin:5px 0 0;">Preferências de comportamento da plataforma e
+           gerenciamento dos dados gravados neste navegador.</p></div>
+      <button class="mdX" id="cfgX">✕</button>
+    </div>
+    <div class="profCols">
+      <div class="cfgBlock" style="background:var(--navy-950);">
+        <span class="cfgLabel">Comportamento</span>
+        <label class="cfgCheck"><input type="checkbox" id="optAutoZip" checked><span class="cfgBox"></span>
+          <span class="cfgTxt">Confirmar antes de operações em lote</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optKeepPanel"><span class="cfgBox"></span>
+          <span class="cfgTxt">Reabrir no último painel utilizado</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optCollapse"><span class="cfgBox"></span>
+          <span class="cfgTxt">Iniciar com o menu de navegação recolhido</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optVerbose" checked><span class="cfgBox"></span>
+          <span class="cfgTxt">Exibir registro técnico detalhado</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optMail" checked><span class="cfgBox"></span>
+          <span class="cfgTxt">Sugerir encaminhamento por e-mail ao registrar</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optAutoView" checked><span class="cfgBox"></span>
+          <span class="cfgTxt">Exibir o primeiro elemento no visualizador</span></label>
+        <label class="cfgCheck"><input type="checkbox" id="optAudit" checked><span class="cfgBox"></span>
+          <span class="cfgTxt">Auditar estrutura após replicar no disco</span></label>
+        <small class="cfgHint">Sem a opção de reabertura marcada, a plataforma sempre abre na
+          página <b>Início</b>.</small>
+      </div>
+      <div class="cfgBlock" style="background:var(--navy-950);">
+        <span class="cfgLabel">Sessão e armazenamento local</span>
+        <div class="metaStrip" style="margin-top:0;margin-bottom:16px;">
+          <div class="metaCard"><span>Sessão iniciada</span><strong id="cfSess" style="font-size:12px;">—</strong></div>
+          <div class="metaCard"><span>Perfil</span><strong id="cfRole" style="font-size:12px;">—</strong></div>
+        </div>
+        <p class="techNote">Perfis, ocorrências, histórico e preferências ficam gravados apenas
+           neste dispositivo. As credenciais não são afetadas pela limpeza.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="cfgBtn ghost" id="btnPassApp2">Alterar minha senha</button>
+          <button class="cfgBtn ghost" id="btnWipe">Limpar dados locais</button>
+        </div>
+      </div>
+    </div>
+    <div class="mdActs">
+      <button class="cfgBtn ghost" id="cfgClose">Fechar</button>
+      <button class="cfgBtn" id="btnPrefSave">Salvar preferências</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL SENHA ==================== -->
+<div class="mdBack" id="mdPass">
+  <div class="mdCard">
+    <div class="mdHead"><h3>Alterar senha</h3><button class="mdX" id="mdX2">✕</button></div>
+    <p class="techNote">A troca de senha exige a chave mestra de autorização fornecida pela
+       administração.</p>
+    <div class="loginErr" id="mdErr"></div>
+    <span class="fLabel" style="margin-top:0;">Usuário</span>
+    <select class="fInput" id="mdUser"></select>
+    <span class="fLabel">Chave mestra</span>
+    <input class="fInput" id="mdMaster" type="password" placeholder="Chave de autorização">
+    <span class="fLabel">Nova senha</span>
+    <input class="fInput" id="mdNew" type="password" placeholder="Mínimo 6 caracteres">
+    <span class="fLabel">Confirmar nova senha</span>
+    <input class="fInput" id="mdNew2" type="password" placeholder="Repita a nova senha">
+    <div class="mdActs">
+      <button class="cfgBtn ghost" id="mdCancel">Cancelar</button>
+      <button class="cfgBtn" id="mdSave">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<div id="lightBox"><img id="lbImg" alt=""></div>
+<div id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+/* ==================================================================
+   SOUZA WORKSPACE — ferramentas auxiliares de projeto
+   ================================================================== */
+const $=id=>document.getElementById(id);
+pdfjsLib.GlobalWorkerOptions.workerSrc=
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+/* ---------- USUÁRIOS ---------- */
+const DEFAULT_PASSWORD='senha01';
+const MASTER_KEY='Souzamec';
+const BUG_MAIL='arthursouzaeng@outlook.com.br';
+const KNOWN_USERS=[
+  {name:"Adriano Alves",     role:"comum"},
+  {name:"Rafael Damazio",    role:"comum"},
+  {name:"Heytor Cardoso",    role:"comum"},
+  {name:"Leandro Rodrigues", role:"administrador"},
+  {name:"Arthur Souza",      role:"administrador", fixedPass:"controlegeral"}
+];
+const STATIC_ROLES={
+  "Adriano Alves":{cargo:"Técnico"},
+  "Rafael Damazio":{cargo:"Analista de Projetos"},
+  "Heytor Cardoso":{cargo:"Analista Técnico"},
+  "Leandro Rodrigues":{cargo:"Gestor"},
+  "Arthur Souza":{cargo:"Analista Técnico"}
+};
+const findUser=n=>KNOWN_USERS.find(u=>u.name===n);
+
+/* ---------- STORAGE ---------- */
+const K={cred:'sw_cred',prof:'sw_prof',blk:'sw_blocked',bugs:'sw_bugs',hist:'sw_folder_hist',pref:'sw_pref'};
+const rd=(k,f)=>{try{return JSON.parse(localStorage.getItem(k))??f}catch{return f}};
+const wr=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const loadCredentials=()=>rd(K.cred,{}), saveCredentials=v=>wr(K.cred,v);
+const loadProfiles=()=>rd(K.prof,{}),   saveProfiles=v=>wr(K.prof,v);
+const loadBlocked=()=>rd(K.blk,[]),     saveBlocked=v=>wr(K.blk,v);
+const loadBugs=()=>rd(K.bugs,[]),       saveBugs=v=>wr(K.bugs,v);
+const loadHist=()=>rd(K.hist,[]),       saveHist=v=>wr(K.hist,v);
+
+async function sha256(t){
+  const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
+/* ---------- MIGRAÇÃO ---------- */
+(function migrate(){
+  const REMOVED=["Arthur Ramos","Adm","Admin","Leandro R."];
+  const cred=loadCredentials(), prof=loadProfiles();
+  let bl=loadBlocked(), ch=false;
+  if(prof["Arthur Ramos"]&&!prof["Arthur Souza"]){prof["Arthur Souza"]=prof["Arthur Ramos"];ch=true;}
+  REMOVED.forEach(n=>{
+    if(cred[n]){delete cred[n];ch=true;}
+    if(prof[n]){delete prof[n];ch=true;}
+    if(bl.includes(n)){bl=bl.filter(x=>x!==n);ch=true;}
+  });
+  if(ch){saveCredentials(cred);saveProfiles(prof);saveBlocked(bl);}
+})();
+
+/* ---------- SEMEADURA ---------- */
+(async()=>{
+  const cred=loadCredentials(); let ch=false;
+  for(const u of KNOWN_USERS){
+    if(!cred[u.name]){cred[u.name]=await sha256(u.fixedPass||DEFAULT_PASSWORD);ch=true;}
+  }
+  if(ch) saveCredentials(cred);
+})();
+
+/* ---------- UTILITÁRIOS ---------- */
+let toastT;
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3400);}
+const initials=n=>n.trim().split(/\s+/).slice(0,2).map(p=>p[0]).join('').toUpperCase();
+const SAFE=s=>String(s||'').replace(/[\\/:*?"<>|]/g,'-').trim();
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function dlBlob(b,name){const a=document.createElement('a');a.href=URL.createObjectURL(b);
+  a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500);}
+function csvExport(head,rows,name){
+  const csv=[head.join(';'),...rows.map(r=>r.map(c=>String(c??'').replace(/;/g,',')).join(';'))].join('\n');
+  dlBlob(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),name);
+}
+function greetByHour(){const h=new Date().getHours();
+  return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';}
+
+/* ---------- SELECTS ---------- */
+function fillUserSelects(){
+  const blocked=loadBlocked();
+  const opts=KNOWN_USERS.map(u=>`<option value="${u.name}">${u.name}${blocked.includes(u.name)?' — bloqueado':''}</option>`).join('');
+  $('selUser').innerHTML='<option value="">— Selecione seu nome —</option>'+opts;
+  $('mdUser').innerHTML=opts;
+}
+fillUserSelects();
+
+/* ================= LOGIN ================= */
+let userName='', userRole='', sessionStart='';
+function lerr(m){const e=$('loginErr');e.textContent='// '+m;e.classList.add('show');}
+function lclr(){$('loginErr').classList.remove('show');}
+
+$('btnLogin').onclick=async function(){
+  lclr();
+  const n=$('selUser').value, p=$('inpPass').value;
+  if(!n) return lerr('Selecione o usuário.');
+  if(!p) return lerr('Informe a senha.');
+  if(loadBlocked().includes(n)) return lerr('Acesso bloqueado pela administração.');
+  const u=findUser(n); if(!u) return lerr('Usuário inválido.');
+  const cred=loadCredentials();
+  const stored=cred[n]||await sha256(u.fixedPass||DEFAULT_PASSWORD);
+  if(await sha256(p)!==stored) return lerr('Senha incorreta.');
+  proceedLogin(n,u.role);
+};
+$('inpPass').addEventListener('keydown',e=>{if(e.key==='Enter')$('btnLogin').click();});
+
+function proceedLogin(name,role){
+  userName=name; userRole=role;
+  sessionStart=new Date().toLocaleString('pt-BR');
+  $('loginScreen').style.display='none';
+  $('appShell').style.display='flex';
+  document.querySelectorAll('.admOnly').forEach(el=>{
+    el.style.display=role==='administrador'?(el.classList.contains('umItem')?'flex':'block'):'none';
+  });
+  loadPrefs(); refreshIdentity(); loadProfileIntoForm(); renderBugs(); renderHist();
+  if(role==='administrador') renderAccessTable();
+  if($('optCollapse').checked) $('shellBody').classList.add('collapsed');
+  activate('panelHome');
+  const last=localStorage.getItem('sw_lastPanel');
+  if($('optKeepPanel').checked&&last&&document.querySelector(`[data-panel="${last}"]`)) activate(last);
+  const p=loadProfiles()[userName]||{};
+  if(p.pfMail) $('bgMail').value=p.pfMail;
+  toast(greetByHour()+', '+name.split(' ')[0]+'.');
+}
+function refreshIdentity(){
+  const short=userName.split(' ').slice(0,2).join(' ');
+  const uses=loadHist().filter(h=>h.user===userName).length;
+  const cargo=(STATIC_ROLES[userName]||{}).cargo||'—';
+  $('chipAv').textContent=initials(userName);
+  $('chipName').textContent=short;
+  $('chipRole').textContent=userRole;
+  $('heroName').textContent=userName.split(' ')[0];
+  $('heroGreet').textContent=greetByHour();
+  $('heroSess').textContent=sessionStart;
+  $('heroRole').textContent=cargo+' · '+userRole;
+  $('heroUses').textContent=uses;
+  $('profAv').textContent=initials(userName);
+  $('profName').textContent=userName;
+  $('profRole').textContent=cargo+' · '+userRole;
+  $('pfCargo').value=cargo;
+  $('cfSess').textContent=sessionStart; $('cfRole').textContent=userRole;
+  $('sgUser').textContent=short; $('sgRole').textContent=userRole;
+  $('sgSess').textContent=sessionStart; $('sgUses').textContent=uses;
+}
+
+/* ================= MENU DO USUÁRIO ================= */
+const chip=$('userChip'), umenu=$('userMenu');
+function closeMenu(){umenu.classList.remove('show');chip.classList.remove('open');}
+chip.onclick=e=>{e.stopPropagation();
+  const open=umenu.classList.toggle('show'); chip.classList.toggle('open',open);};
+document.addEventListener('click',e=>{if(!e.target.closest('.userWrap'))closeMenu();});
+
+function openAcessos(){
+  if(userRole!=='administrador')return toast('Acesso restrito à administração.');
+  renderAccessTable(); $('mdAcessos').classList.add('show');
+}
+$('umDados').onclick=()=>{closeMenu();openProfile();};
+$('umFuncao').onclick=()=>{closeMenu();openAcessos();};
+$('umConfig').onclick=()=>{closeMenu();refreshIdentity();$('mdConfig').classList.add('show');};
+$('umSair').onclick=()=>{
+  closeMenu();
+  if(!confirm('Encerrar a sessão?'))return;
+  userName='';userRole='';
+  $('appShell').style.display='none';
+  $('loginScreen').style.display='grid';
+  $('inpPass').value=''; $('selUser').value=''; lclr(); fillUserSelects();
+};
+
+/* ================= RECOLHER NAVEGAÇÃO ================= */
+$('btnBurger').onclick=function(){
+  const c=$('shellBody').classList.toggle('collapsed');
+  this.title=c?'Exibir navegação':'Recolher navegação';
+};
+
+/* ================= NAVEGAÇÃO ================= */
+function activate(id){
+  document.querySelectorAll('.usrTabItem').forEach(t=>t.classList.toggle('active',t.dataset.panel===id));
+  document.querySelectorAll('.usrPanelView').forEach(p=>p.classList.toggle('active',p.id===id));
+  localStorage.setItem('sw_lastPanel',id);
+  if(id==='panelHome') refreshIdentity();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.usrTabItem').forEach(t=>t.onclick=()=>activate(t.dataset.panel));
+$('tbBrand').onclick=()=>activate('panelHome');
+document.querySelectorAll('.toolCard[data-go]').forEach(c=>c.onclick=()=>activate(c.dataset.go));
+$('cardFuncao').onclick=openAcessos;
+
+/* ================= MODAL MEUS DADOS ================= */
+function openProfile(){
+  refreshIdentity(); loadProfileIntoForm();
+  document.querySelectorAll('.profTab')[0].click();
+  $('mdProfile').classList.add('show');
+}
+$('prfX').onclick=()=>$('mdProfile').classList.remove('show');
+$('mdProfile').onclick=e=>{if(e.target===$('mdProfile'))$('mdProfile').classList.remove('show');};
+document.querySelectorAll('.profTab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.profTab').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.profPane').forEach(p=>p.classList.toggle('on',p.id===b.dataset.pane));
+});
+const PF=['pfFull','pfSetor','pfNasc','pfMail','pfTel','pfCrea','pfObs'];
+function loadProfileIntoForm(){
+  const p=loadProfiles()[userName]||{};
+  PF.forEach(id=>$(id).value=p[id]??(id==='pfFull'?userName:''));
+}
+$('btnProfSave').onclick=()=>{
+  const all=loadProfiles(), o={};
+  PF.forEach(id=>o[id]=$(id).value);
+  all[userName]=o; saveProfiles(all);
+  if(o.pfMail)$('bgMail').value=o.pfMail;
+  toast('Dados salvos.'); $('mdProfile').classList.remove('show');
+};
+$('btnProfReload').onclick=()=>{loadProfileIntoForm();toast('Alterações descartadas.');};
+
+/* ================= MODAIS AUXILIARES ================= */
+$('accX').onclick=()=>$('mdAcessos').classList.remove('show');
+$('mdAcessos').onclick=e=>{if(e.target===$('mdAcessos'))$('mdAcessos').classList.remove('show');};
+$('cfgX').onclick=$('cfgClose').onclick=()=>$('mdConfig').classList.remove('show');
+$('mdConfig').onclick=e=>{if(e.target===$('mdConfig'))$('mdConfig').classList.remove('show');};
+
+/* ================= MODAL DE SENHA ================= */
+function openPass(u){
+  $('mdErr').classList.remove('show');
+  $('mdMaster').value=$('mdNew').value=$('mdNew2').value='';
+  fillUserSelects(); if(u)$('mdUser').value=u;
+  $('mdPass').classList.add('show');
+}
+$('lnkChange').onclick=()=>openPass($('selUser').value);
+$('btnPassApp2').onclick=()=>{$('mdConfig').classList.remove('show');openPass(userName);};
+$('btnPassFromProf').onclick=()=>{$('mdProfile').classList.remove('show');openPass(userName);};
+$('mdCancel').onclick=$('mdX2').onclick=()=>$('mdPass').classList.remove('show');
+$('mdPass').onclick=e=>{if(e.target===$('mdPass'))$('mdPass').classList.remove('show');};
+$('mdSave').onclick=async()=>{
+  const e=$('mdErr'); const show=m=>{e.textContent='// '+m;e.classList.add('show');};
+  e.classList.remove('show');
+  const u=$('mdUser').value, m=$('mdMaster').value, a=$('mdNew').value, b=$('mdNew2').value;
+  if(m!==MASTER_KEY) return show('Chave mestra inválida.');
+  if(a.length<6) return show('A nova senha deve ter ao menos 6 caracteres.');
+  if(a!==b) return show('As senhas não coincidem.');
+  const cred=loadCredentials(); cred[u]=await sha256(a); saveCredentials(cred);
+  $('mdPass').classList.remove('show');
+  if(userRole==='administrador') renderAccessTable();
+  toast('Senha de '+u+' atualizada.');
+};
+
+/* ================= CONTROLE DE FUNÇÃO ================= */
+async function renderAccessTable(){
+  const cred=loadCredentials(), blk=loadBlocked(), b=$('accBody'); b.innerHTML='';
+  for(const u of KNOWN_USERS){
+    const def=await sha256(u.fixedPass||DEFAULT_PASSWORD);
+    const isDef=(cred[u.name]||def)===def;
+    const isBlk=blk.includes(u.name), isAdm=u.role==='administrador';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><b>${u.name}</b></td>
+      <td style="color:var(--muted);">${(STATIC_ROLES[u.name]||{}).cargo||'—'}</td>
+      <td><span class="pill ${isAdm?'adm':'on'}">${u.role}</span></td>
+      <td><span class="pill ${isDef?'wr':'on'}">${isDef?'padrão':'personalizada'}</span></td>
+      <td><span class="pill ${isBlk?'off':'on'}">${isBlk?'bloqueado':'ativo'}</span></td>
+      <td style="text-align:right;white-space:nowrap;">
+        <button class="miniBtn" data-act="pass" data-u="${u.name}">Trocar senha</button>
+        <button class="miniBtn" data-act="reset" data-u="${u.name}">Resetar</button>
+        <button class="miniBtn ${isBlk?'':'danger'}" data-act="blk" data-u="${u.name}"
+          ${isAdm?'disabled style="opacity:.35;cursor:not-allowed;"':''}>${isBlk?'Desbloquear':'Bloquear'}</button>
+      </td>`;
+    b.appendChild(tr);
+  }
+  b.querySelectorAll('button[data-act]').forEach(btn=>btn.onclick=async()=>{
+    const u=btn.dataset.u, act=btn.dataset.act;
+    if(act==='pass'){$('mdAcessos').classList.remove('show');return openPass(u);}
+    if(act==='reset'){
+      if(!confirm(`Redefinir a senha de ${u} para o padrão de primeiro acesso?`))return;
+      const cr=loadCredentials(), uu=findUser(u);
+      cr[u]=await sha256(uu.fixedPass||DEFAULT_PASSWORD); saveCredentials(cr);
+      renderAccessTable(); return toast('Senha redefinida.');
+    }
+    if(act==='blk'){
+      let bl=loadBlocked();
+      bl=bl.includes(u)?bl.filter(x=>x!==u):[...bl,u];
+      saveBlocked(bl); fillUserSelects(); renderAccessTable();
+      toast(bl.includes(u)?u+' bloqueado.':u+' desbloqueado.');
+    }
+  });
+}
+
+/* ==================================================================
+   RELATÓRIO DE BUGS — 100% LOCAL
+   ================================================================== */
+const SEVLBL={baixa:'Baixa',media:'Média',alta:'Alta',critica:'Crítica'};
+const bugCod=id=>'#'+new Date().getFullYear()+'-'+String(id).padStart(3,'0');
+
+function bugBody(b){
+  return [
+    '=== RELATÓRIO DE BUG — SOUZA WORKSPACE ===',
+    'Protocolo: '+bugCod(b.id),'Usuário: '+b.user,'Data: '+b.date,
+    'Módulo: '+b.mod,'Severidade: '+(SEVLBL[b.sev]||b.sev),
+    'Retorno: '+(b.mail||'não informado'),
+    '','--- TÍTULO ---',b.title,'','--- DESCRIÇÃO ---',b.desc,
+    '','--- AMBIENTE ---',
+    'Navegador: '+((b.env&&b.env.ua)||navigator.userAgent),
+    'Tela: '+((b.env&&b.env.tela)||screen.width+'x'+screen.height),
+    'Idioma: '+((b.env&&b.env.lang)||navigator.language)
+  ].join('\n');
+}
+function markSent(id){
+  const all=loadBugs(), b=all.find(x=>x.id===id);
+  if(b){b.sent=true;saveBugs(all);renderBugs();}
+}
+function bugEml(b){
+  const eml=['To: '+BUG_MAIL,'Subject: [BUG '+bugCod(b.id)+'] '+b.title,
+    'X-Unsent: 1','MIME-Version: 1.0','Content-Type: text/plain; charset=utf-8',
+    '',bugBody(b)].join('\r\n');
+  dlBlob(new Blob(['\ufeff'+eml],{type:'message/rfc822'}),'bug-'+bugCod(b.id).replace('#','')+'.eml');
+  markSent(b.id); toast('Abra o .eml baixado no Outlook e clique em Enviar.');
+}
+function bugMailto(b){
+  const url='mailto:'+BUG_MAIL+'?subject='+encodeURIComponent('[BUG '+bugCod(b.id)+'] '+b.title)
+    +'&body='+encodeURIComponent(bugBody(b));
+  if(url.length>1900){toast('Texto extenso — gerando .eml.');return bugEml(b);}
+  window.location.href=url; markSent(b.id);
+}
+$('bugForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const t=$('bgTitle').value.trim(), d=$('bgDesc').value.trim();
+  if(t.length<4) return toast('Descreva um título válido.');
+  if(d.length<10) return toast('Detalhe melhor a ocorrência.');
+  const bugs=loadBugs(), id=((bugs[bugs.length-1]||{}).id||0)+1;
+  bugs.push({id,user:userName||'não identificado',mod:$('bgModule').value,sev:$('bgSev').value,
+    title:t,desc:d,mail:$('bgMail').value.trim(),status:'aberto',
+    date:new Date().toLocaleString('pt-BR'),sent:false,
+    env:{ua:navigator.userAgent,tela:screen.width+'x'+screen.height,lang:navigator.language}});
+  saveBugs(bugs);
+  $('bgTitle').value=''; $('bgDesc').value=''; renderBugs();
+  const nova=loadBugs().find(x=>x.id===id);
+  if($('optMail').checked && confirm('Ocorrência registrada.\n\nAbrir o Outlook agora para encaminhá-la?'))
+    bugMailto(nova);
+  else toast('Ocorrência '+bugCod(id)+' registrada localmente.');
+});
+$('btnBugLote').onclick=()=>{
+  const isAdm=userRole==='administrador', all=loadBugs();
+  const ab=(isAdm?all:all.filter(b=>b.user===userName)).filter(b=>!b.sent);
+  if(!ab.length) return toast('Nenhuma ocorrência pendente de envio.');
+  const eml=['To: '+BUG_MAIL,
+    'Subject: [BUGS] Lote de '+ab.length+' ocorrência(s) — '+(userName||'—'),
+    'X-Unsent: 1','MIME-Version: 1.0','Content-Type: text/plain; charset=utf-8','',
+    ab.map(bugBody).join('\n\n'+'='.repeat(52)+'\n\n')].join('\r\n');
+  dlBlob(new Blob(['\ufeff'+eml],{type:'message/rfc822'}),'bugs-lote-'+Date.now()+'.eml');
+  const store=loadBugs();
+  ab.forEach(a=>{const b=store.find(x=>x.id===a.id); if(b)b.sent=true;});
+  saveBugs(store); renderBugs();
+  toast(ab.length+' ocorrência(s) no arquivo .eml.');
+};
+function renderBugs(){
+  const isAdm=userRole==='administrador', all=loadBugs();
+  const rows=(isAdm?all:all.filter(b=>b.user===userName)).slice().reverse();
+  $('bugListTitle').textContent=isAdm?'Ocorrências da equipe':'Minhas ocorrências';
+  $('bugStats').style.display=isAdm?'grid':'none';
+  if(isAdm){
+    $('bsTotal').textContent=all.length;
+    $('bsOpen').textContent=all.filter(b=>b.status==='aberto').length;
+    $('bsDone').textContent=all.filter(b=>b.status==='resolvido').length;
+    $('bsCrit').textContent=all.filter(b=>b.sev==='critica').length;
+  }
+  const L=$('bugList');
+  if(!rows.length){L.innerHTML='<div class="emptyState">// nenhuma ocorrência registrada</div>';return;}
+  L.innerHTML='';
+  rows.forEach(b=>{
+    const sevCls=b.sev==='critica'||b.sev==='alta'?'off':b.sev==='media'?'wr':'on';
+    const d=document.createElement('div'); d.className='bugItem';
+    d.innerHTML=`<header>
+        <h4>${bugCod(b.id)} · ${esc(b.title)}</h4>
+        <span class="pill ${sevCls}">${SEVLBL[b.sev]||b.sev}</span>
+        <span class="pill ${b.status==='resolvido'?'on':'adm'}">${b.status}</span>
+        <span class="pill ${b.sent?'on':'wr'}">${b.sent?'encaminhado':'não encaminhado'}</span>
+      </header>
+      <p>${esc(b.desc)}</p>
+      <footer><span>${b.date}</span><span>· ${esc(b.user)}</span><span>· ${esc(b.mod)}</span>
+        <span style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="miniBtn pri" data-out="${b.id}">✉ Outlook</button>
+          <button class="miniBtn" data-eml="${b.id}">⤓ .eml</button>
+          <button class="miniBtn" data-cp="${b.id}">⧉ Copiar</button>
+          ${isAdm?`<button class="miniBtn" data-tg="${b.id}">${b.status==='aberto'?'Marcar resolvido':'Reabrir'}</button>
+                   <button class="miniBtn danger" data-del="${b.id}">Excluir</button>`:''}
+        </span></footer>`;
+    L.appendChild(d);
+  });
+  const get=id=>loadBugs().find(x=>x.id==id);
+  L.querySelectorAll('[data-out]').forEach(x=>x.onclick=()=>bugMailto(get(x.dataset.out)));
+  L.querySelectorAll('[data-eml]').forEach(x=>x.onclick=()=>bugEml(get(x.dataset.eml)));
+  L.querySelectorAll('[data-cp]').forEach(x=>x.onclick=async()=>{
+    try{await navigator.clipboard.writeText(bugBody(get(x.dataset.cp)));toast('Relatório copiado.');}
+    catch{toast('Não foi possível copiar.');}
+  });
+  L.querySelectorAll('[data-tg]').forEach(btn=>btn.onclick=()=>{
+    const bugs=loadBugs(), b=bugs.find(x=>x.id==btn.dataset.tg);
+    b.status=b.status==='aberto'?'resolvido':'aberto'; saveBugs(bugs); renderBugs();
+  });
+  L.querySelectorAll('[data-del]').forEach(btn=>btn.onclick=()=>{
+    if(!confirm('Excluir esta ocorrência?'))return;
+    saveBugs(loadBugs().filter(x=>x.id!=btn.dataset.del)); renderBugs(); toast('Ocorrência excluída.');
+  });
+}
+$('btnBugExport').onclick=()=>{
+  const isAdm=userRole==='administrador', all=loadBugs();
+  const rows=isAdm?all:all.filter(b=>b.user===userName);
+  if(!rows.length)return toast('Nada para exportar.');
+  csvExport(['Protocolo','Data','Usuario','Modulo','Severidade','Status','Encaminhado','Retorno','Titulo','Descricao'],
+    rows.map(b=>[bugCod(b.id),b.date,b.user,b.mod,SEVLBL[b.sev]||b.sev,b.status,
+      b.sent?'sim':'não',b.mail||'',b.title,String(b.desc).replace(/\n/g,' | ')]),
+    'ocorrencias.csv');
+};
+
+/* ==================================================================
+   EXTRAÇÃO TÉCNICA — pipeline de alta fidelidade
+   ================================================================== */
+let pdfDoc=null, pdfName='DOCUMENTO', results=[], vdIdx=-1, vdZoom=1;
+let seenHashes=new Set(), pageCounters={};
+const qual =()=>parseFloat(document.querySelector('input[name="qual"]:checked').value);
+const fmt  =()=>$('selFmt').value;
+const dpi  =()=>parseInt($('selDpi').value,10);
+const ext  =()=>({'image/png':'png','image/jpeg':'jpg','image/webp':'webp'})[fmt()];
+const lossless=()=>fmt()!=='image/jpeg';
+const encQ =()=>fmt()==='image/jpeg'?0.98:1.0;
+
+function setStatus(txt,cls){
+  $('stTxt').textContent=txt;
+  $('stDot').className='stDot'+(cls?' '+cls:'');
+}
+function xlog(m,er){
+  if(!er&&!$('optVerbose').checked)return;
+  const l=$('extLog'); l.classList.add('show');
+  l.innerHTML+=`<span style="${er?'color:#ff8f9c':''}">&gt; ${m}</span><br>`;
+  l.scrollTop=l.scrollHeight;
+}
+function prog(p,lbl){
+  $('progWrap').classList.add('show');
+  $('progFill').style.width=p+'%'; $('progPct').textContent=Math.round(p)+'%';
+  if(lbl)$('progLbl').textContent=lbl;
+}
+
+/* ---------- carga ---------- */
+$('pdfDrop').onclick=()=>$('pdfInput').click();
+$('pdfInput').onchange=e=>{if(e.target.files[0])loadPdf(e.target.files[0]);};
+const pd=$('pdfDrop');
+pd.ondragover=e=>{e.preventDefault();pd.classList.add('dragging');};
+pd.ondragleave=()=>pd.classList.remove('dragging');
+pd.ondrop=e=>{e.preventDefault();pd.classList.remove('dragging');
+  const f=e.dataTransfer.files[0];
+  if(!f||!/\.pdf$/i.test(f.name))return toast('Selecione um arquivo PDF.');
+  loadPdf(f);};
+
+async function loadPdf(file){
+  try{
+    pdfName=SAFE(file.name.replace(/\.[^/.]+$/,''))||'DOCUMENTO';
+    pdfDoc=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+    seenHashes=new Set(); pageCounters={};
+    $('mFile').textContent=file.name;
+    $('mPages').textContent=pdfDoc.numPages;
+    $('mSize').innerHTML=(file.size/1048576).toFixed(2)+' <small>MB</small>';
+    $('btnExtract').disabled=false; $('btnDetect').disabled=false;
+    setStatus('DOCUMENTO CARREGADO','rdy');
+    xlog(`Carregado: ${file.name} · ${pdfDoc.numPages} página(s)`);
+    toast('Documento carregado.');
+  }catch(err){setStatus('FALHA NA LEITURA');xlog('Falha ao abrir o PDF: '+err.message,true);}
+}
+function parseRange(str,max){
+  if(!str.trim())return Array.from({length:max},(_,i)=>i+1);
+  const set=new Set();
+  str.split(',').forEach(p=>{
+    const m=p.trim().match(/^(\d+)\s*-\s*(\d+)$/);
+    if(m){for(let i=+m[1];i<=+m[2];i++)if(i>=1&&i<=max)set.add(i);}
+    else{const n=+p.trim();if(n>=1&&n<=max)set.add(n);}
+  });
+  return [...set].sort((a,b)=>a-b);
+}
+function buildName(pn){
+  pageCounters[pn]=(pageCounters[pn]||0)+1;
+  return `${pdfName} - PÁGINA ${pn} - ITEM ${pageCounters[pn]}`.toUpperCase()+'.'+ext();
+}
+
+/* ---------- codificação ---------- */
+function encode(cv){
+  return new Promise(res=>{
+    if(lossless())return cv.toBlob(b=>res(b),fmt(),encQ());
+    const o=document.createElement('canvas'); o.width=cv.width; o.height=cv.height;
+    const c=o.getContext('2d');
+    c.fillStyle='#fff'; c.fillRect(0,0,o.width,o.height);
+    c.drawImage(cv,0,0);
+    o.toBlob(b=>res(b),fmt(),encQ());
+  });
+}
+function resample(src,factor){
+  if(factor<=1)return src;
+  let cur=src; const target=Math.round(src.width*factor);
+  while(cur.width*2<=target){
+    const n=document.createElement('canvas');
+    n.width=cur.width*2; n.height=cur.height*2;
+    const c=n.getContext('2d');
+    c.imageSmoothingEnabled=true; c.imageSmoothingQuality='high';
+    c.drawImage(cur,0,0,n.width,n.height); cur=n;
+  }
+  if(cur.width===target)return cur;
+  const f=document.createElement('canvas');
+  f.width=target; f.height=Math.round(src.height*factor);
+  const c=f.getContext('2d');
+  c.imageSmoothingEnabled=true; c.imageSmoothingQuality='high';
+  c.drawImage(cur,0,0,f.width,f.height); return f;
+}
+function hashCanvas(cv){
+  const t=document.createElement('canvas'); t.width=32; t.height=32;
+  const c=t.getContext('2d'); c.drawImage(cv,0,0,32,32);
+  const d=c.getImageData(0,0,32,32).data;
+  let h=0; for(let i=0;i<d.length;i+=16)h=(h*31+d[i])%1000000007;
+  return cv.width+'x'+cv.height+'_'+h;
+}
+function imgToCanvas(img){
+  let w,h,c;
+  if(img.bitmap){
+    w=img.bitmap.width; h=img.bitmap.height;
+    c=document.createElement('canvas'); c.width=w; c.height=h;
+    c.getContext('2d',{alpha:true}).drawImage(img.bitmap,0,0);
+    return {c,w,h};
+  }
+  if(!img.data||!img.width||!img.height)return null;
+  w=img.width; h=img.height;
+  c=document.createElement('canvas'); c.width=w; c.height=h;
+  const ctx=c.getContext('2d',{alpha:true}), id=ctx.createImageData(w,h), D=id.data;
+  if(img.kind===1){
+    for(let s=0,d=0;s<img.data.length;s++,d+=4){
+      D[d]=D[d+1]=D[d+2]=img.data[s]; D[d+3]=255;}
+  }else if(img.data.length===w*h*3){
+    for(let s=0,d=0;s<img.data.length;s+=3,d+=4){
+      D[d]=img.data[s];D[d+1]=img.data[s+1];D[d+2]=img.data[s+2];D[d+3]=255;}
+  }else if(img.data.length===w*h*4){
+    D.set(img.data);
+  }else return null;
+  ctx.putImageData(id,0,0);
+  return {c,w,h};
+}
+
+/* ---------- objetos incorporados ---------- */
+async function extractEmbedded(pages,f,minPx){
+  let found=0;
+  for(const pn of pages){
+    const page=await pdfDoc.getPage(pn);
+    const ops=await page.getOperatorList(), processed=new Set();
+    for(let i=0;i<ops.fnArray.length;i++){
+      const fn=ops.fnArray[i], args=ops.argsArray[i];
+      if(fn!==pdfjsLib.OPS.paintImageXObject&&fn!==pdfjsLib.OPS.paintInlineImageXObject)continue;
+      const nm=args[0];
+      if(typeof nm!=='string')continue;
+      if($('chkDedup').checked&&processed.has(nm))continue;
+      processed.add(nm);
+      try{
+        const img=await page.objs.get(nm);
+        const r=imgToCanvas(img); if(!r)continue;
+        if(r.w<minPx||r.h<minPx){xlog(`p.${pn} · descartado (${r.w}×${r.h} px)`);continue;}
+        if($('chkSkipWm').checked){
+          const hs=hashCanvas(r.c);
+          if(seenHashes.has(hs)){xlog(`p.${pn} · redundância suprimida`);continue;}
+          seenHashes.add(hs);
+        }
+        const up=resample(r.c,f);
+        const bl=await encode(up);
+        if(bl){addResult(bl,buildName(pn),`XObject · pág. ${pn}`,up.width,up.height);found++;}
+      }catch(e){}
+    }
+    page.cleanup&&page.cleanup();
+  }
+  xlog(`Objetos incorporados recuperados: ${found}`);
+  return found;
+}
+
+/* ---------- segmentação de diagramas ---------- */
+function detectClusters(canvas,s,scale){
+  const ctx=canvas.getContext('2d'), w=canvas.width, h=canvas.height;
+  const data=ctx.getImageData(0,0,w,h).data;
+  const base=s==='high'?8:s==='low'?18:12;
+  const size=Math.max(6,Math.round(base*scale/1.4));
+  const cols=Math.ceil(w/size), rows=Math.ceil(h/size);
+  const grid=new Uint8Array(cols*rows), t=245;
+  const step=Math.max(1,Math.round((s==='high'?2:s==='low'?4:3)*scale/1.4));
+  for(let gy=0;gy<rows;gy++)for(let gx=0;gx<cols;gx++){
+    const px=gx*size, py=gy*size; let ink=0;
+    for(let y=py;y<Math.min(py+size,h);y+=step)
+      for(let x=px;x<Math.min(px+size,w);x+=step){
+        const i=(y*w+x)*4;
+        if(data[i]<t||data[i+1]<t||data[i+2]<t)ink++;
+      }
+    if(ink>=2)grid[gy*cols+gx]=1;
+  }
+  const visited=new Uint8Array(cols*rows), out=[], r=2;
+  for(let i=0;i<grid.length;i++){
+    if(!grid[i]||visited[i])continue;
+    const stack=[i]; visited[i]=1;
+    let minX=1/0,minY=1/0,maxX=-1/0,maxY=-1/0,cellCount=0;
+    while(stack.length){
+      const c=stack.pop(), cx=c%cols, cy=Math.floor(c/cols);
+      minX=Math.min(minX,cx);maxX=Math.max(maxX,cx);
+      minY=Math.min(minY,cy);maxY=Math.max(maxY,cy);cellCount++;
+      for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){
+        if(!dx&&!dy)continue;
+        const nx=cx+dx, ny=cy+dy;
+        if(nx<0||ny<0||nx>=cols||ny>=rows)continue;
+        const n=ny*cols+nx;
+        if(grid[n]&&!visited[n]){visited[n]=1;stack.push(n);}
+      }
+    }
+    out.push({minX:minX*size,minY:minY*size,maxX:(maxX+1)*size,maxY:(maxY+1)*size,cellCount});
+  }
+  return out;
+}
+async function detectDiagrams(pages){
+  const s=$('selSens').value;
+  const MIN_C=s==='high'?10:s==='low'?30:18, MAX_RATIO=.6;
+  const scale=Math.min(8,dpi()/72);
+  let total=0;
+  for(const pn of pages){
+    const page=await pdfDoc.getPage(pn);
+    const vp=page.getViewport({scale});
+    const c=document.createElement('canvas');
+    c.width=Math.round(vp.width); c.height=Math.round(vp.height);
+    const cx=c.getContext('2d',{alpha:false});
+    cx.fillStyle='#fff'; cx.fillRect(0,0,c.width,c.height);
+    cx.imageSmoothingEnabled=true; cx.imageSmoothingQuality='high';
+    await page.render({canvasContext:cx,viewport:vp,intent:'print'}).promise;
+    const area=c.width*c.height; let d=0;
+    for(const cl of detectClusters(c,s,scale)){
+      const w=cl.maxX-cl.minX, h=cl.maxY-cl.minY;
+      const minSide=Math.round(70*scale/1.4);
+      if(w<minSide||h<minSide||cl.cellCount<MIN_C||(w*h)/area>MAX_RATIO)continue;
+      const pad=Math.round(15*scale/1.4);
+      const x=Math.max(0,cl.minX-pad), y=Math.max(0,cl.minY-pad);
+      const cw=Math.min(c.width-x,w+pad*2), ch=Math.min(c.height-y,h+pad*2);
+      const o=document.createElement('canvas'); o.width=cw; o.height=ch;
+      const oc=o.getContext('2d',{alpha:false});
+      oc.fillStyle='#fff'; oc.fillRect(0,0,cw,ch);
+      oc.drawImage(c,x,y,cw,ch,0,0,cw,ch);
+      if($('chkSkipWm').checked){
+        const hs=hashCanvas(o); if(seenHashes.has(hs))continue; seenHashes.add(hs);
+      }
+      const bl=await encode(o);
+      if(bl){addResult(bl,buildName(pn),`Diagrama ${dpi()} DPI · pág. ${pn}`,o.width,o.height);d++;total++;}
+    }
+    xlog(`Página ${pn} · ${d} diagrama(s) segmentado(s) a ${dpi()} DPI`);
+    page.cleanup&&page.cleanup();
+  }
+  return total;
+}
+
+/* ---------- disparo ---------- */
+async function runExtraction(mode){
+  if(!pdfDoc)return toast('Carregue um documento PDF.');
+  const pages=parseRange($('inpRange').value,pdfDoc.numPages);
+  if(!pages.length)return toast('Intervalo de páginas inválido.');
+  if($('optAutoZip').checked&&pages.length>25&&!confirm(`Processar ${pages.length} páginas?`))return;
+  const btn=mode==='diagram'?$('btnDetect'):$('btnExtract');
+  const lbl=btn.textContent;
+  $('btnExtract').disabled=$('btnDetect').disabled=true;
+  btn.textContent='Processando…'; setStatus('PROCESSANDO','run');
+  const before=results.length, f=qual(), minPx=$('chkSkipTiny').checked?48:1;
+  const t0=performance.now();
+  try{
+    if(mode==='diagram'){prog(15,'Segmentando diagramas');await detectDiagrams(pages);}
+    else{
+      if($('chkEmbedded').checked){prog(15,'Recuperando XObjects');await extractEmbedded(pages,f,minPx);}
+      if($('chkVector').checked){prog(60,'Segmentando diagramas');await detectDiagrams(pages);}
+    }
+  }catch(err){xlog('Erro: '+err.message,true);}
+  btn.textContent=lbl;
+  $('btnExtract').disabled=$('btnDetect').disabled=false;
+  prog(100,'Concluído');
+  const n=results.length-before;
+  xlog(`<b style="color:var(--accent-light)">Execução finalizada em ${((performance.now()-t0)/1000).toFixed(1)}s · ${n} elemento(s)</b>`);
+  setStatus(n?`${results.length} ELEMENTO(S) NO ACERVO`:'NENHUM ELEMENTO','rdy');
+  if(!n)toast('Nada encontrado — ajuste sensibilidade ou escopo.');
+  else{toast(n+' elemento(s) extraído(s).');
+       if($('optAutoView').checked)showInDock(before);}
+}
+$('btnExtract').onclick=()=>runExtraction('embedded');
+$('btnDetect').onclick=()=>runExtraction('diagram');
+
+/* ---------- acervo / inspeção / saída ---------- */
+function addResult(blob,name,label,w,h){
+  const url=URL.createObjectURL(blob), idx=results.length;
+  results.push({blob,name,url,label,w,h});
+  $('extEmpty').style.display='none';
+  const c=document.createElement('div'); c.className='imgCard'; c.dataset.idx=idx;
+  c.innerHTML=`<div class="imgThumb"><img src="${url}" alt="${name}"></div>
+    <div class="imgFoot"><h4 title="${name}">${name}</h4>
+      <p>${label} · ${w}×${h} px · ${(blob.size/1024).toFixed(0)} KB</p>
+      <div style="display:flex;gap:6px;">
+        <button class="miniBtn" style="flex:1;" data-view>Inspecionar</button>
+        <button class="miniBtn pri" style="flex:1;" data-dl>Baixar</button>
+        <button class="miniBtn danger" data-rm>✕</button></div></div>`;
+  c.querySelector('img').onclick=()=>showInDock(+c.dataset.idx);
+  c.querySelector('[data-view]').onclick=()=>showInDock(+c.dataset.idx);
+  c.querySelector('[data-dl]').onclick=()=>dlBlob(blob,name);
+  c.querySelector('[data-rm]').onclick=()=>{
+    const i=+c.dataset.idx; URL.revokeObjectURL(results[i].url);
+    results.splice(i,1); redrawGrid(); toast('Elemento removido.');
+  };
+  $('imgGrid').appendChild(c);
+  $('mFound').textContent=results.length;
+  $('resCount').textContent='('+results.length+')';
+}
+function redrawGrid(){
+  const snap=results.slice(); results=[];
+  $('imgGrid').innerHTML=''; clearDock();
+  $('extEmpty').style.display=snap.length?'none':'block';
+  snap.forEach(r=>{URL.revokeObjectURL(r.url);addResult(r.blob,r.name,r.label,r.w,r.h);});
+}
+function showInDock(i){
+  if(i<0||i>=results.length)return;
+  vdIdx=i; vdZoom=1;
+  const r=results[i];
+  $('vdEmpty').style.display='none';
+  const im=$('vdImg'); im.style.display='block'; im.src=r.url; im.style.transform='scale(1)';
+  $('vdName').textContent=r.name; $('vdOrig').textContent=r.label;
+  $('vdDim').textContent=r.w+' × '+r.h+' px';
+  $('vdSize').textContent=(r.blob.size/1024).toFixed(0)+' KB';
+  $('vdFmt').textContent=(r.blob.type||'—').replace('image/','').toUpperCase()+(lossless()?' · lossless':'');
+  $('vdPos').textContent=(i+1)+' / '+results.length;
+  document.querySelectorAll('.imgCard').forEach(c=>c.classList.toggle('sel',+c.dataset.idx===i));
+}
+function clearDock(){
+  vdIdx=-1; $('vdImg').style.display='none'; $('vdImg').removeAttribute('src');
+  $('vdEmpty').style.display='block'; $('vdPos').textContent='0 / 0';
+  ['vdName','vdOrig','vdDim','vdSize','vdFmt'].forEach(id=>$(id).textContent='—');
+}
+$('vdPrev').onclick=()=>{if(results.length)showInDock((vdIdx<=0?results.length:vdIdx)-1);};
+$('vdNext').onclick=()=>{if(results.length)showInDock((vdIdx+1)%results.length);};
+const applyZoom=()=>{const i=$('vdImg');
+  i.style.transform='scale('+vdZoom+')';
+  i.style.imageRendering=vdZoom>1.6?'pixelated':'auto';};
+$('vdZoomIn').onclick=()=>{vdZoom=Math.min(6,vdZoom+.25);applyZoom();};
+$('vdZoomOut').onclick=()=>{vdZoom=Math.max(.25,vdZoom-.25);applyZoom();};
+$('vdZoomRst').onclick=()=>{vdZoom=1;applyZoom();};
+$('vdDl').onclick=()=>{if(vdIdx>=0)dlBlob(results[vdIdx].blob,results[vdIdx].name);};
+$('vdFull').onclick=()=>{if(vdIdx>=0){$('lbImg').src=results[vdIdx].url;$('lightBox').classList.add('show');}};
+$('lightBox').onclick=()=>$('lightBox').classList.remove('show');
+
+$('btnZipAll').onclick=async function(){
+  if(!results.length)return toast('Acervo vazio.');
+  this.disabled=true; this.textContent='Compactando…';
+  const zip=new JSZip(), f=zip.folder(pdfName||'extracao');
+  results.forEach(r=>f.file(r.name,r.blob));
+  dlBlob(await zip.generateAsync({type:'blob',compression:'STORE'}),
+    (pdfName||'extracao')+'_ACERVO.zip');
+  this.disabled=false; this.textContent='Exportar .ZIP';
+};
+$('btnSaveDisk').onclick=async()=>{
+  if(!results.length)return toast('Acervo vazio.');
+  if(!window.showDirectoryPicker)return toast('Gravação direta apenas no Chrome/Edge.');
+  try{
+    const dir=await window.showDirectoryPicker({mode:'readwrite'});
+    for(const r of results){
+      const fh=await dir.getFileHandle(r.name,{create:true});
+      const w=await fh.createWritable(); await w.write(r.blob); await w.close();
+      xlog('Gravado: '+r.name);
+    }
+    toast(results.length+' arquivo(s) gravado(s).');
+  }catch(e){if(e.name!=='AbortError')xlog('Falha ao gravar: '+e.message,true);}
+};
+function clearResults(){
+  results.forEach(r=>URL.revokeObjectURL(r.url)); results=[];
+  $('imgGrid').innerHTML=''; $('extEmpty').style.display='block';
+  $('mFound').textContent='0'; $('resCount').textContent='(0)'; clearDock();
+}
+$('btnClearRes').onclick=()=>{clearResults();pageCounters={};seenHashes=new Set();
+  setStatus(pdfDoc?'DOCUMENTO CARREGADO':'AGUARDANDO DOCUMENTO',pdfDoc?'rdy':'');
+  toast('Acervo descartado.');};
+$('btnReset').onclick=()=>{
+  clearResults(); pdfDoc=null; pdfName='DOCUMENTO'; seenHashes=new Set(); pageCounters={};
+  $('pdfInput').value=''; $('mFile').textContent='—'; $('mPages').textContent='0';
+  $('mSize').innerHTML='0 <small>MB</small>';
+  $('btnExtract').disabled=true; $('btnDetect').disabled=true;
+  $('progWrap').classList.remove('show');
+  $('extLog').classList.remove('show'); $('extLog').innerHTML='';
+  setStatus('AGUARDANDO DOCUMENTO');
+  toast('Módulo reiniciado.');
+};
+
+/* ==================================================================
+   REPLICADOR DE PASTAS — leitura fiel (pastas vazias + arquivos)
+   ================================================================== */
+let model=null, destDir=null, readMode='—';
+const newNode=n=>({name:n,kids:[],files:[]});
+
+/* ---- estatística da árvore ---- */
+function statTree(t){
+  let folders=0,files=0,empty=0;
+  (function w(n){
+    n.kids.forEach(k=>{
+      folders++;
+      if(!k.kids.length&&!k.files.length)empty++;
+      w(k);
+    });
+    files+=n.files.length;
+  })(t);
+  return{folders,files,empty};
+}
+
+/* ---- A) SELETOR NATIVO: enumera diretórios E arquivos (lazy) ---- */
+async function readHandleTree(dirHandle){
+  const node=newNode(dirHandle.name);
+  for await(const [name,h] of dirHandle.entries()){
+    if(h.kind==='directory') node.kids.push(await readHandleTree(h)); /* vazia preservada */
+    else node.files.push({name,handle:h});                            /* leitura sob demanda */
+  }
+  node.kids.sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+  node.files.sort((a,b)=>a.name.localeCompare(b.name,'pt-BR'));
+  return node;
+}
+$('btnPickModel').onclick=async()=>{
+  if(!window.showDirectoryPicker)
+    return toast('Seletor nativo indisponível — arraste a pasta (Chrome/Edge recomendado).');
+  try{
+    const h=await window.showDirectoryPicker({mode:'read'});
+    setModel(h.name,await readHandleTree(h),'NATIVO');
+  }catch(e){if(e.name!=='AbortError')toast('Falha ao ler a pasta: '+e.message);}
+};
+
+/* ---- B) ARRASTAR: FileSystemDirectoryReader também vê pastas vazias ---- */
+const fdz=$('folderDrop');
+fdz.onclick=()=>$('btnPickModel').click();
+fdz.ondragover=e=>{e.preventDefault();fdz.classList.add('dragging');};
+fdz.ondragleave=()=>fdz.classList.remove('dragging');
+fdz.ondrop=async e=>{
+  e.preventDefault(); fdz.classList.remove('dragging');
+  const it=[...e.dataTransfer.items][0];
+  const en=it&&it.webkitGetAsEntry&&it.webkitGetAsEntry();
+  if(!en||!en.isDirectory)return toast('Arraste uma pasta, não um arquivo.');
+  const root=newNode(en.name);
+  await (async function walk(dir,node){
+    const rdr=dir.createReader();
+    for(;;){
+      const ents=await new Promise(r=>rdr.readEntries(r,()=>r([])));
+      if(!ents.length)break;
+      for(const x of ents){
+        if(x.isDirectory){const k=newNode(x.name);node.kids.push(k);await walk(x,k);}
+        else{const f=await new Promise(r=>x.file(r,()=>r(null)));
+             if(f)node.files.push({name:x.name,file:f});}
+      }
+    }
+  })(en,root);
+  setModel(en.name,root,'ARRASTAR');
+};
+
+/* ---- C) INPUT (legado): não vê pastas vazias — sinalizado ---- */
+$('lnkLegacy').onclick=()=>$('folderInput').click();
+function insertPath(root,parts,file){
+  let cur=root;
+  parts.forEach((p,i)=>{
+    if(i===parts.length-1){cur.files.push({name:p,file});return;}
+    let k=cur.kids.find(x=>x.name===p);
+    if(!k){k=newNode(p);cur.kids.push(k);}
+    cur=k;
+  });
+}
+$('folderInput').onchange=function(){
+  const fs=[...this.files]; if(!fs.length)return;
+  let base='MODELO'; const root=newNode('');
+  fs.forEach(f=>{const parts=(f.webkitRelativePath||f.name).split('/');
+    base=parts[0]||base; insertPath(root,parts.slice(1),f);});
+  root.name=base;
+  setModel(base,root,'CLIQUE');
+  this.value='';
+};
+
+/* ---- diagnóstico do modo de leitura ---- */
+function flagMode(){
+  const el=$('modeFlag'), s=statTree(model.tree);
+  el.className='modeFlag show '+(readMode==='CLIQUE'?'warn':'ok');
+  el.innerHTML=readMode==='CLIQUE'
+    ? `⚠ MODO LIMITADO · leitura por clique<br>Pastas <b>vazias não são detectadas</b> por
+       restrição do navegador. Estrutura lida: <b>${s.folders}</b> subpasta(s) ·
+       <b>${s.files}</b> arquivo(s).<br>Use o <b>seletor nativo</b> para fidelidade integral.`
+    : `✔ LEITURA COMPLETA · método ${readMode}<br>Estrutura lida: <b>${s.folders}</b>
+       subpasta(s) — inclusive <b>${s.empty}</b> vazia(s) — e <b>${s.files}</b> arquivo(s).`;
+}
+function drawTree(){
+  const b=$('treeBox'); if(!model){b.classList.remove('show');return;}
+  const copy=$('chkCopyFiles').checked;
+  let out=`<b>📁 ${model.name}</b>  (modelo · ${readMode})\n`;
+  (function w(n,d){
+    n.kids.forEach(k=>{
+      const vazia=!k.kids.length&&!k.files.length;
+      out+='  '.repeat(d)+'└ 📁 '+k.name+(vazia?'   <i style="color:#f0c163">[vazia]</i>':'')+'\n';
+      w(k,d+1);
+    });
+    if(copy)n.files.forEach(f=>out+='  '.repeat(d)+'· '+f.name+'\n');
+  })(model.tree,1);
+  const s=statTree(model.tree);
+  out+=`\n<b>${s.folders} subpasta(s) · ${s.empty} vazia(s) · ${s.files} arquivo(s)</b>`;
+  b.innerHTML=out; b.classList.add('show');
+}
+function setModel(name,tree,mode){
+  model={name:SAFE(name)||'MODELO',tree}; readMode=mode;
+  if(!$('repBase').value)$('repBase').value=model.name;
+  flagMode(); drawTree(); updPreview();
+  const s=statTree(tree);
+  toast(`Modelo lido (${mode}): ${s.folders} subpasta(s), ${s.empty} vazia(s), ${s.files} arquivo(s).`);
+}
+$('chkCopyFiles').onchange=()=>{drawTree();updPreview();};
+
+/* ---- nomeação ---- */
+function repNames(){
+  const t=SAFE($('repBase').value)||'PASTA';
+  const mask=$('repMask').value||'{titulo}-{n}';
+  const qty=Math.min(300,Math.max(1,+$('repQty').value||1));
+  const st=+$('repStart').value||0, pad=$('repPad').checked, d=new Date(), out=[];
+  for(let i=0;i<qty;i++){const n=st+i;
+    out.push(SAFE(mask.replace(/{titulo}/g,t)
+      .replace(/{n}/g,pad?String(n).padStart(3,'0'):n)
+      .replace(/{ano}/g,d.getFullYear())
+      .replace(/{mes}/g,String(d.getMonth()+1).padStart(2,'0'))
+      .replace(/{data}/g,d.toISOString().slice(0,10))));}
+  return out;
+}
+function updPreview(){
+  const names=repNames(), s=model?statTree(model.tree):{folders:0,files:0,empty:0};
+  const copy=$('chkCopyFiles').checked;
+  $('repPreview').innerHTML=names.slice(0,5).map(n=>'📁 '+n).join('<br>')
+    +(names.length>5?`<br>… +${names.length-5}`:'')
+    +`<br><br><b style="color:var(--accent-light)">${names.length} × ${s.folders+1} = ${names.length*(s.folders+1)} pasta(s)</b>`
+    +(s.empty?` <span style="color:#f0c163">(${names.length*s.empty} vazia(s) preservada(s))</span>`:'')
+    +(copy&&s.files?`<br><span style="color:#7ee0ad">+ ${names.length*s.files} arquivo(s) copiado(s)</span>`:'');
+}
+['repBase','repMask','repQty','repStart'].forEach(id=>$(id).oninput=updPreview);
+$('repPad').onchange=updPreview; updPreview();
+
+$('btnPickDir').onclick=async()=>{
+  if(!window.showDirectoryPicker)return toast('Gravação direta apenas no Chrome/Edge — use o .ZIP.');
+  try{destDir=await window.showDirectoryPicker({mode:'readwrite'});
+      $('dirLabel').value=destDir.name;}catch{}
+};
+function rlog(m,er){const l=$('repLog');l.classList.add('show');
+  l.innerHTML+=`<span style="${er?'color:#ff8f9c':''}">${m}</span><br>`;l.scrollTop=l.scrollHeight;}
+
+/* ---- gravação: cria TODA subpasta, inclusive vazia ---- */
+async function nodeFile(f){ return f.handle ? await f.handle.getFile() : f.file; }
+
+async function writeTree(handle,node,copy){
+  for(const k of node.kids){
+    const h=await handle.getDirectoryHandle(k.name,{create:true}); /* vazia é criada */
+    await writeTree(h,k,copy);
+  }
+  if(copy)for(const f of node.files){
+    const fh=await handle.getFileHandle(f.name,{create:true});
+    const w=await fh.createWritable(); await w.write(await nodeFile(f)); await w.close();
+  }
+}
+$('btnRepRun').onclick=async function(){
+  if(!model)return toast('Selecione a pasta modelo.');
+  if(!destDir)return toast('Escolha a pasta de destino.');
+  const names=repNames(), copy=$('chkCopyFiles').checked, s=statTree(model.tree);
+  if(readMode==='CLIQUE'&&!confirm(
+    'ATENÇÃO — modelo lido em modo limitado (clique).\n\n'+
+    'Pastas vazias NÃO foram detectadas e não serão criadas.\n\n'+
+    'Prosseguir mesmo assim?'))return;
+  if(!confirm(`Criar ${names.length} réplica(s) em "${destDir.name}"?\n\n`+
+    `Por réplica: ${s.folders} subpasta(s) · ${s.empty} vazia(s)`+
+    `${copy?` · ${s.files} arquivo(s)`:' · sem arquivos'}`))return;
+  this.disabled=true; this.textContent='Replicando…'; $('repLog').innerHTML='';
+  let ok=0;
+  for(const nm of names){
+    try{await writeTree(await destDir.getDirectoryHandle(nm,{create:true}),model.tree,copy);
+        ok++; rlog(`✔ ${nm}`);}
+    catch(err){rlog(`✕ ${nm} — ${err.message}`,true);}
+  }
+  /* auditoria pós-gravação */
+  if($('optAudit').checked&&ok){
+    let audit=0;
+    try{
+      for(const nm of names.slice(0,ok)){
+        const h=await destDir.getDirectoryHandle(nm);
+        audit+=statTree(await readHandleTree(h)).folders;
+      }
+      const exp=ok*s.folders;
+      rlog(audit===exp
+        ? `<b style="color:#7ee0ad">AUDITORIA OK · ${audit}/${exp} subpasta(s) confirmada(s)</b>`
+        : `<b style="color:#f0c163">AUDITORIA · ${audit}/${exp} subpasta(s) — divergência</b>`);
+    }catch{rlog('Auditoria indisponível neste navegador.');}
+  }
+  this.disabled=false; this.textContent='Replicar no disco';
+  rlog(`<b style="color:var(--accent-light)">CONCLUÍDO · ${ok}/${names.length}</b>`);
+  logHist({qty:ok,dest:destDir.name,mode:copy?'DISCO + ARQUIVOS':'DISCO'});
+  toast(ok+' réplica(s) criada(s).');
+};
+$('btnRepZip').onclick=async function(){
+  if(!model)return toast('Selecione a pasta modelo.');
+  const copy=$('chkCopyFiles').checked;
+  this.disabled=true; this.textContent='Compactando…';
+  /* sem placeholder: zip.folder() já registra o diretório vazio */
+  const add=async(zf,node)=>{
+    for(const k of node.kids) await add(zf.folder(k.name),k);
+    if(copy)for(const f of node.files) zf.file(f.name,await nodeFile(f));
+  };
+  const zip=new JSZip(), names=repNames();
+  for(const nm of names) await add(zip.folder(nm),model.tree);
+  dlBlob(await zip.generateAsync({type:'blob'}),
+    SAFE($('repBase').value||'estrutura')+'_replicas.zip');
+  this.disabled=false; this.textContent='Baixar .ZIP';
+  logHist({qty:names.length,dest:'DOWNLOAD (.ZIP)',mode:copy?'ZIP + ARQUIVOS':'ZIP'});
+};
+
+/* ---- HISTÓRICO ---- */
+function logHist({qty,dest,mode}){
+  const h=loadHist(), s=model?statTree(model.tree):{folders:0,empty:0};
+  h.push({id:((h[h.length-1]||{}).id||0)+1,date:new Date().toLocaleString('pt-BR'),user:userName,
+    title:$('repBase').value||'—',model:model?model.name:'—',qty,
+    folders:qty*(s.folders+1),empty:qty*s.empty,read:readMode,dest,mode});
+  saveHist(h.slice(-500)); renderHist();
+  const uses=loadHist().filter(x=>x.user===userName).length;
+  $('sgUses').textContent=uses; $('heroUses').textContent=uses;
+}
+function renderHist(){
+  const isAdm=userRole==='administrador', all=loadHist();
+  const rows=(isAdm?all:all.filter(r=>r.user===userName)).slice().reverse();
+  $('histTitle').textContent=isAdm?'Histórico de utilizações — todos os usuários'
+                                  :'Meu histórico de utilizações';
+  $('btnHistClear').style.display=isAdm?'inline-block':'none';
+  const b=$('histBody');
+  if(!rows.length){
+    b.innerHTML='<tr><td colspan="7" style="color:var(--dim);font-family:var(--fmono);font-size:11px;text-align:center;padding:26px;letter-spacing:1px;">// NENHUM REGISTRO</td></tr>';
+    return;
+  }
+  b.innerHTML='';
+  rows.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td style="font-family:var(--fmono);font-size:11px;">${r.date}</td>
+      <td><b>${esc(r.user)}</b></td>
+      <td>${esc(r.title)}<br><span style="font-size:10px;color:var(--dim);font-family:var(--fmono);">MODELO: ${esc(r.model)}</span></td>
+      <td>${r.qty}</td><td>${r.folders}</td>
+      <td style="font-size:11.5px;color:var(--muted);">${esc(r.dest)}
+        <br><span style="font-size:10px;color:var(--dim);font-family:var(--fmono);">LEITURA: ${r.read||'—'}${r.empty?' · '+r.empty+' VAZIA(S)':''}</span></td>
+      <td><span class="pill ${r.mode.includes('ZIP')?'adm':'on'}">${r.mode}</span></td>`;
+    b.appendChild(tr);
+  });
+}
+$('btnHistClear').onclick=()=>{
+  if(userRole!=='administrador')return;
+  if(!confirm('Apagar todo o histórico da ferramenta?'))return;
+  localStorage.removeItem(K.hist); renderHist(); refreshIdentity(); toast('Histórico apagado.');
+};
+$('btnHistExport').onclick=()=>{
+  const isAdm=userRole==='administrador', all=loadHist();
+  const rows=isAdm?all:all.filter(r=>r.user===userName);
+  if(!rows.length)return toast('Nada para exportar.');
+  csvExport(['Data','Operador','Titulo','Modelo','Replicas','Pastas','Vazias','Leitura','Destino','Modo'],
+    rows.map(r=>[r.date,r.user,r.title,r.model,r.qty,r.folders,r.empty||0,r.read||'—',r.dest,r.mode]),
+    'historico_replicador.csv');
+};
+
+/* ================= CONFIGURAÇÕES ================= */
+const PREFS=['optAutoZip','optKeepPanel','optCollapse','optVerbose','optMail','optAutoView','optAudit'];
+function loadPrefs(){
+  const p=rd(K.pref,{});
+  PREFS.forEach(id=>{if(p[id]!==undefined)$(id).checked=p[id];});
+}
+$('btnPrefSave').onclick=()=>{
+  const o={}; PREFS.forEach(id=>o[id]=$(id).checked);
+  wr(K.pref,o); toast('Preferências salvas.'); $('mdConfig').classList.remove('show');
+};
+$('btnWipe').onclick=()=>{
+  if(!confirm('Remover perfis, ocorrências, histórico e preferências gravados NESTE navegador?'))return;
+  [K.prof,K.bugs,K.hist,K.pref].forEach(k=>localStorage.removeItem(k));
+  loadProfileIntoForm(); renderBugs(); renderHist(); refreshIdentity();
+  toast('Dados locais removidos.');
+};
+
+/* ================= ATALHOS ================= */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeMenu();
+    ['lightBox','mdPass','mdProfile','mdAcessos','mdConfig']
+      .forEach(id=>$(id).classList.remove('show'));
+  }
+  if($('panelExtrator').classList.contains('active')&&results.length){
+    if(e.key==='ArrowLeft') $('vdPrev').click();
+    if(e.key==='ArrowRight')$('vdNext').click();
+  }
+});
+</script>
+</body>
+</html>
